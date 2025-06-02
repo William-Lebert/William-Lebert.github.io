@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>濮晓宇 - 学生简历</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Noto Sans SC', sans-serif;
+        }
+        
+        :root {
+            --primary: #4a9c8d;
+            --primary-light: #7bc0b1;
+            --secondary: #f8f9fa;
+            --accent: #ffb74d;
+            --text: #333;
+            --text-light: #666;
+            --border: #e0e0e0;
+            --shadow: rgba(0, 0, 0, 0.05);
+        }
+        
+        body {
+            background-color: #f5f7fa;
+            color: var(--text);
+            line-height: 1.6;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 20px var(--shadow);
+            overflow: hidden;
+        }
+        
+        header {
+            background: linear-gradient(to right, var(--primary), var(--primary-light));
+            padding: 50px 40px 40px;
+            text-align: center;
+            position: relative;
+            color: white;
+        }
+        
+        .header-content {
+            position: relative;
+            z-index: 2;
+        }
+        
+        .avatar-container {
+            width: 140px;
+            height: 140px;
+            margin: 0 auto 25px;
+            border-radius: 50%;
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 5px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .avatar {
+            font-size: 60px;
+            color: var(--primary);
+        }
+        
+        .name {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            font-weight: 500;
+        }
+        
+        .title {
+            font-size: 1.3rem;
+            font-weight: 300;
+            margin-bottom: 25px;
+            opacity: 0.95;
+        }
+        
+        .student-tag {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 5px 20px;
+            border-radius: 20px;
+            font-size: 0.95rem;
+            margin-top: 10px;
+        }
+        
+        .contact-info {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 25px;
+            margin-top: 20px;
+        }
+        
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.05rem;
+        }
+        
+        .contact-item i {
+            font-size: 1.2rem;
+        }
+        
+        .content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            padding: 40px;
+        }
+        
+        @media (max-width: 768px) {
+            .content {
+                grid-template-columns: 1fr;
+                padding: 30px 20px;
+            }
+            
+            .contact-info {
+                flex-direction: column;
+                align-items: center;
+                gap: 15px;
+            }
+        }
+        
+        .section {
+            margin-bottom: 30px;
+        }
+        
+        .section-title {
+            color: var(--primary);
+            font-size: 1.5rem;
+            margin-bottom: 25px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--primary-light);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .section-title i {
+            background: rgba(74, 156, 141, 0.1);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary);
+        }
+        
+        .info-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+        }
+        
+        .info-item {
+            background: var(--secondary);
+            padding: 20px;
+            border-radius: 8px;
+            border-left: 3px solid var(--primary);
+            box-shadow: 0 2px 5px var(--shadow);
+        }
+        
+        .info-item h3 {
+            color: var(--primary);
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.2rem;
+        }
+        
+        .info-item p {
+            margin: 8px 0;
+            color: var(--text-light);
+            padding-left: 5px;
+        }
+        
+        .award-item, .research-item {
+            margin-bottom: 25px;
+            padding: 20px;
+            border-radius: 8px;
+            background: var(--secondary);
+            border-left: 3px solid var(--accent);
+            box-shadow: 0 2px 5px var(--shadow);
+        }
+        
+        .research-item h3 {
+            color: var(--text);
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.25rem;
+        }
+        
+        .date {
+            background: rgba(255, 183, 77, 0.1);
+            color: var(--text);
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            display: inline-block;
+            margin: 10px 0 15px;
+            font-weight: 500;
+            border: 1px solid rgba(255, 183, 77, 0.2);
+        }
+        
+        .research-description {
+            margin-top: 15px;
+            padding: 15px;
+            background: white;
+            border-radius: 8px;
+            border-left: 3px solid var(--primary-light);
+        }
+        
+        .research-description p {
+            margin-bottom: 10px;
+            color: var(--text-light);
+        }
+        
+        .tag {
+            display: inline-block;
+            padding: 5px 15px;
+            background: rgba(74, 156, 141, 0.1);
+            color: var(--primary);
+            border-radius: 20px;
+            margin: 8px 5px 5px 0;
+            font-size: 0.9rem;
+        }
+        
+        .progress-container {
+            margin-top: 15px;
+        }
+        
+        .progress-title {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 5px;
+            color: var(--text-light);
+        }
+        
+        .progress-bar {
+            height: 8px;
+            background: #e9ecef;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        
+        .progress {
+            height: 100%;
+            background: linear-gradient(to right, var(--primary-light), var(--primary));
+            border-radius: 4px;
+        }
+        
+        .skill-item {
+            margin-bottom: 20px;
+        }
+        
+        footer {
+            text-align: center;
+            padding: 30px 0;
+            background: var(--secondary);
+            color: var(--text-light);
+            font-size: 0.95rem;
+            border-top: 1px solid var(--border);
+        }
+        
+        .signature {
+            font-family: 'Dancing Script', cursive;
+            font-size: 1.6rem;
+            color: var(--primary);
+            margin-top: 10px;
+        }
+        
+        .interests {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-top: 15px;
+        }
+        
+        .interest-item {
+            flex: 1;
+            min-width: 120px;
+            text-align: center;
+            padding: 15px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px var(--shadow);
+            transition: transform 0.3s ease;
+        }
+        
+        .interest-item:hover {
+            transform: translateY(-5px);
+        }
+        
+        .interest-item i {
+            font-size: 2rem;
+            color: var(--primary);
+            margin-bottom: 10px;
+        }
+        
+        .interest-item h4 {
+            color: var(--primary);
+            font-weight: 500;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="header-content">
+                <div class="avatar-container">
+                    <div class="avatar">
+                        <i class="fas fa-user-graduate"></i>
+                    </div>
+                </div>
+                <h1 class="name">濮晓宇</h1>
+                <div class="title">环境工程专业 · 环境与化学工程学院</div>
+                <div class="student-tag">本科一年级学生</div>
+                
+                <div class="contact-info">
+                    <div class="contact-item">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <span>云南腾冲</span>
+                    </div>
+                    <div class="contact-item">
+                        <i class="fas fa-user"></i>
+                        <span>19岁 | 共青团员</span>
+                    </div>
+                    <div class="contact-item">
+                        <i class="fas fa-university"></i>
+                        <span>环境工程专业</span>
+                    </div>
+                </div>
+            </div>
+        </header>
+        
+        <div class="content">
+            <div class="left-column">
+                <div class="section">
+                    <h2 class="section-title"><i class="fas fa-user"></i>个人信息</h2>
+                    <div class="info-grid">
+                        <div class="info-item">
+                            <h3><i class="fas fa-id-card"></i>基本信息</h3>
+                            <p><strong>姓名：</strong>濮晓宇</p>
+                            <p><strong>年龄：</strong>19岁</p>
+                            <p><strong>籍贯：</strong>云南腾冲</p>
+                            <p><strong>政治面貌：</strong>共青团员</p>
+                        </div>
+                        
+                        <div class="info-item">
+                            <h3><i class="fas fa-graduation-cap"></i>教育背景</h3>
+                            <p><strong>学院：</strong>环境与化学工程学院</p>
+                            <p><strong>专业：</strong>环境工程</p>
+                            <p><strong>年级：</strong>大学一年级</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="section">
+                    <h2 class="section-title"><i class="fas fa-trophy"></i>获奖经历</h2>
+                    <div class="award-item">
+                        <h3>英语四级证书 (CET4)</h3>
+                        <div class="date">大一上学期</div>
+                        <p>于大学第一学期通过全国大学英语四级考试，展现了出色的英语学习能力和扎实的语言基础。</p>
+                        <div style="margin-top: 15px;">
+                            <span class="tag">语言能力</span>
+                            <span class="tag">学术成就</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="section">
+                    <h2 class="section-title"><i class="fas fa-laptop-code"></i>专业技能</h2>
+                    <div class="skill-item">
+                        <div class="progress-title">
+                            <span>环境工程基础知识</span>
+                            <span>90%</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress" style="width: 90%"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="skill-item">
+                        <div class="progress-title">
+                            <span>实验设计与操作</span>
+                            <span>85%</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress" style="width: 85%"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="skill-item">
+                        <div class="progress-title">
+                            <span>数据分析与处理</span>
+                            <span>80%</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress" style="width: 80%"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="skill-item">
+                        <div class="progress-title">
+                            <span>科研文献阅读</span>
+                            <span>75%</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress" style="width: 75%"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="skill-item">
+                        <div class="progress-title">
+                            <span>英语能力</span>
+                            <span>85%</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress" style="width: 85%"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="right-column">
+                <div class="section">
+                    <h2 class="section-title"><i class="fas fa-flask"></i>科研经历</h2>
+                    <div class="research-item">
+                        <h3><i class="fas fa-users"></i>张武翔老师课题组</h3>
+                        <div class="date">2025年3月13日 - 至今</div>
+                        <div class="research-description">
+                            <p>加入环境与化学工程学院张武翔教授领导的课题组，参与前沿环境工程研究项目。</p>
+                            <p>在团队中协助进行实验数据收集与分析，学习科研论文的撰写方法。</p>
+                            <div style="margin-top: 15px;">
+                                <span class="tag">环境工程</span>
+                                <span class="tag">数据分析</span>
+                                <span class="tag">科研协作</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="research-item">
+                        <h3><i class="fas fa-vial"></i>压电光催化降解实验研究</h3>
+                        <div class="date">2025年5月20日 - 至今</div>
+                        <div class="research-description">
+                            <p>在贾佳琳老师指导下开展压电光催化降解水中新污染物的实验研究，专注于环境污染物处理新技术的探索。</p>
+                            <p>参与实验装置搭建、样品制备及性能测试，学习光谱分析技术对降解产物进行表征。</p>
+                            <p><strong>研究方向：</strong>新型污染物处理技术、光催化材料应用、水环境修复</p>
+                            <div style="margin-top: 15px;">
+                                <span class="tag">压电光催化</span>
+                                <span class="tag">污染物降解</span>
+                                <span class="tag">水处理技术</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="section">
+                    <h2 class="section-title"><i class="fas fa-book"></i>学术兴趣</h2>
+                    <div class="interests">
+                        <div class="interest-item">
+                            <i class="fas fa-water"></i>
+                            <h4>水处理技术</h4>
+                            <p>新型污染物处理技术</p>
+                        </div>
+                        
+                        <div class="interest-item">
+                            <i class="fas fa-leaf"></i>
+                            <h4>环境修复</h4>
+                            <p>土壤与地下水修复</p>
+                        </div>
+                        
+                        <div class="interest-item">
+                            <i class="fas fa-recycle"></i>
+                            <h4>环境催化</h4>
+                            <p>光催化技术应用</p>
+                        </div>
+                        
+                        <div class="interest-item">
+                            <i class="fas fa-seedling"></i>
+                            <h4>生态工程</h4>
+                            <p>可持续发展研究</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="section">
+                    <h2 class="section-title"><i class="fas fa-bullseye"></i>学习目标</h2>
+                    <div class="info-item">
+                        <h3><i class="fas fa-graduation-cap"></i>学术目标</h3>
+                        <p>掌握环境工程核心知识体系，参与高水平科研项目，发表学术论文</p>
+                    </div>
+                    
+                    <div class="info-item">
+                        <h3><i class="fas fa-language"></i>语言目标</h3>
+                        <p>通过英语六级考试，提升专业英语能力，达到学术交流水平</p>
+                    </div>
+                    
+                    <div class="info-item">
+                        <h3><i class="fas fa-lightbulb"></i>创新目标</h3>
+                        <p>探索环境工程创新解决方案，参与环保科技竞赛</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <footer>
+            <p>&copy; 2025 濮晓宇 - 学生简历 | 最后更新: 2025年5月29日</p>
+            <div class="signature">学无止境 · 知行合一</div>
+        </footer>
+    </div>
+    
+    <script>
+        // 简单的动画效果
+        document.addEventListener('DOMContentLoaded', function() {
+            const items = document.querySelectorAll('.info-item, .award-item, .research-item, .interest-item');
+            
+            items.forEach((item, index) => {
+                setTimeout(() => {
+                    item.style.opacity = '1';
+                    item.style.transform = 'translateY(0)';
+                }, 100 * index);
+                
+                // 初始状态
+                item.style.opacity = '0';
+                item.style.transform = 'translateY(20px)';
+                item.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+            });
+            
+            // 头像动画
+            const avatar = document.querySelector('.avatar-container');
+            avatar.style.opacity = '0';
+            avatar.style.transform = 'scale(0.8)';
+            avatar.style.transition = 'all 0.5s ease';
+            
+            setTimeout(() => {
+                avatar.style.opacity = '1';
+                avatar.style.transform = 'scale(1)';
+            }, 300);
+        });
+    </script>
+</body>
+</html>
