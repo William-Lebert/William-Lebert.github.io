@@ -1,1 +1,1759 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="description" content="William.Lebert个人博客,分享技术与生活的点滴。">
+    <meta name="keywords" content="博客, 技术, 生活, 编程, 日常学习">
+    <meta name="author" content="William.Lebert">
+    <!-- Open Graph 基础标签 -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="William.Lebert的Blog">
+    <meta property="og:description" content="William.Lebert个人博客,分享技术与生活的点滴。">
+    <meta property="og:url" content="https://example.com/">
+    <meta property="og:image" content="https://example.com/featured-image.jpg">
+    <meta property="og:site_name" content="William.Lebert的Blog">
+    <!-- Twitter Card 标签 -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="William.Lebert的Blog">
+    <meta name="twitter:description" content="William.Lebert个人博客, 分享技术与生活的点滴。">
+    <meta name="twitter:image" content="https://example.com/featured-image.jpg">
+    <meta name="twitter:site" content="@your_twitter_handle">
+    <link rel="icon" href="https://example.com/favicon.ico" type="image/x-icon">
+    <title>William.Lebert的Blog</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <!-- 富媒体支持库 -->
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#2563eb">
+    <style>
+        body { line-height: 1.8; color: #333; background: #f8f9fa; }
+        html, body { min-height: 100%; }
+        /* 主内容和侧栏分隔 */
+        .main-content-area { background: #fff; border-radius: 0.75rem; box-shadow: 0 2px 12px #0001; padding: 2rem 1.5rem; margin-bottom: 2rem; }
+        .sidebar-area { background: #f4f6fa; border-radius: 0.75rem; box-shadow: 0 1px 8px #0001; padding: 1.5rem 1rem; }
+        @media (max-width: 991px) {
+            .main-content-area, .sidebar-area { box-shadow: none; border-radius: 0; padding: 1rem 0.5rem; }
+        }
+        /* 响应式字体与间距 */
+        @media (max-width: 767px) {
+            .blog-header { padding: 1.5rem 0.5rem; text-align: center; }
+            .blog-header h1 { font-size: 2rem; }
+            .blog-header .btn { margin-top: 0.5rem; }
+            main.container { padding-left: 0.5rem; padding-right: 0.5rem; }
+            .blog-post { padding: 1rem; }
+            .card { margin-bottom: 1rem; }
+            .modal-dialog { max-width: 98vw; margin: 0.5rem auto; }
+            .modal-content { border-radius: 0.5rem; }
+        }
+        @media (max-width: 991px) {
+            .row.g-4 { --bs-gutter-x: 0.5rem; }
+            .col-md-4 { order: -1; }
+        }
+        /* 让表单元素更易点选 */
+        input, textarea, select, button { font-size: 1rem; }
+        /* 日志/资料弹窗滚动优化 */
+        .modal-dialog-scrollable .modal-content { max-height: 90vh; }
+        /* 附件图片自适应 */
+        #diary-attachment-preview img, #profile-avatar-preview {
+            max-width: 100%; height: auto; border-radius: 0.5rem;
+        }
+        /* 无障碍聚焦样式 */
+        :focus-visible { outline: 2px solid #2563eb !important; outline-offset: 2px; }
+        /* 深色模式优化 */
+        .dark-theme { background: #222 !important; color: #eee !important; }
+        .dark-theme .form-control, .dark-theme .form-select { background: #181c23; color: #fff; border-color: #444; }
+        .dark-theme .form-control:focus, .dark-theme .form-select:focus { background: #23272e; color: #fff; border-color: #2563eb; }
+        .dark-theme .modal-content, .dark-theme .card, .dark-theme .list-group-item { background: #23272e !important; color: #fff !important; }
+        .dark-theme .modal-header, .dark-theme .card-header { background: #181c23 !important; color: #fff !important; }
+        .dark-theme .btn-close { filter: invert(1); }
+        .dark-theme .alert-warning { background: #444 !important; color: #ffe066 !important; border-color: #888 !important; }
+        /* 滚动条美化 */
+        ::-webkit-scrollbar { width: 8px; background: #eee; }
+        ::-webkit-scrollbar-thumb { background: #ccc; border-radius: 4px; }
+        .dark-theme ::-webkit-scrollbar { background: #23272e; }
+        .dark-theme ::-webkit-scrollbar-thumb { background: #444; }
+        /* 骨架屏动画 */
+        .skeleton {
+            background: linear-gradient(90deg,#eee 25%,#f5f5f5 37%,#eee 63%);
+            background-size: 400% 100%;
+            animation: skeleton-loading 1.2s ease-in-out infinite;
+            border-radius: 4px;
+            min-height: 1em;
+        }
+        @keyframes skeleton-loading {
+            0% {background-position: 100% 50%;}
+            100% {background-position: 0 50%;}
+        }
+        /* 主题色切换器悬浮样式优化 */
+        #theme-color-picker-box {
+            position: fixed;
+            right: 18px;
+            bottom: 18px;
+            z-index: 1050;
+            background: #fff;
+            border-radius: 50%;
+            box-shadow: 0 2px 8px #0002;
+            padding: 6px;
+            border: 1px solid #eee;
+        }
+        #theme-color-picker { width: 32px; height: 32px; border: none; background: none; }
+        @media (max-width: 767px) {
+            #theme-color-picker-box { right: 8px; bottom: 8px; }
+        }
+        /* 骨架屏位置优化 */
+        #skeleton-post { margin-bottom: 1.5em; border-radius: 0.5em; }
+    </style>
+    <!-- 富媒体支持库 -->
+    <link rel="manifest" href="manifest.json">
+    <!-- ...existing code... -->
+</head>
+<body>
+    <!-- 动态背景 canvas -->
+    <canvas id="bg-canvas"></canvas>
+    <!-- PWA 安装提示按钮 -->
+    <button id="pwa-install-btn" class="btn btn-success" style="position:fixed;right:18px;bottom:70px;z-index:1100;display:none;">
+        <i class="bi bi-download"></i> 安装到桌面
+    </button>
+    <!-- 响应式导航栏 -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark" aria-label="主导航">
+      <div class="container">
+        <a class="navbar-brand" href="#" tabindex="0">William.Lebert的Blog</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar" aria-controls="mainNavbar" aria-expanded="false" aria-label="切换导航">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="mainNavbar">
+          <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+            <li class="nav-item"><a class="nav-link active" href="#" aria-current="page" tabindex="0">首页</a></li>
+            <li class="nav-item"><a class="nav-link" href="#" tabindex="0">归档</a></li>
+            <li class="nav-item"><a class="nav-link" href="#" tabindex="0">标签</a></li>
+            <li class="nav-item"><a class="nav-link" href="#" tabindex="0">关于</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <header class="blog-header" role="banner">
+        <div class="container">
+            <h1 class="display-4" tabindex="0">William.Lebert的Blog</h1>
+            <p class="lead" tabindex="0">分享技术与生活</p>
+            <button class="btn btn-light" id="toggle-theme-btn" aria-pressed="false" aria-label="切换深色模式" tabindex="0">切换深色模式</button>
+            <!-- 新增日志入口按钮 -->
+            <button class="btn btn-info ms-2" id="open-diary-btn" aria-label="打开日志/日记" tabindex="0">
+                <i class="bi bi-journal-text"></i> 日志/日记
+            </button>
+        </div>
+    </header>
 
+    <main class="container" id="main-content" tabindex="-1">
+        <div class="row g-4 flex-wrap">
+            <div class="col-md-8">
+                <div class="main-content-area">
+                    <!-- 可选功能区：日历、心情/打卡/习惯追踪、数据统计 -->
+                    <div class="mb-4">
+                        <div class="row g-2">
+                            <div class="col-12 col-md-6">
+                                <!-- 日历视图 -->
+                                <div class="card">
+                                    <div class="card-header d-flex justify-content-between align-items-center">
+                                        <span>日志日历</span>
+                                        <button class="btn btn-sm btn-outline-secondary" id="calendar-today-btn" title="回到今天"><i class="bi bi-calendar-event"></i></button>
+                                    </div>
+                                    <div class="card-body p-2" id="diary-calendar-container" style="overflow-x:auto;">
+                                        <!-- 日历将由JS渲染 -->
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-6">
+                                <!-- 心情/打卡/习惯追踪 -->
+                                <div class="card">
+                                    <div class="card-header">心情/打卡/习惯追踪</div>
+                                    <div class="card-body p-2">
+                                        <form id="habit-form" class="mb-2 d-flex flex-wrap gap-2 align-items-center">
+                                            <select class="form-select form-select-sm" id="habit-type" style="max-width:110px;">
+                                                <option value="心情">心情</option>
+                                                <option value="打卡">打卡</option>
+                                                <option value="习惯">习惯</option>
+                                            </select>
+                                            <input type="text" class="form-control form-control-sm" id="habit-desc" placeholder="描述/项目" style="max-width:120px;">
+                                            <input type="color" id="habit-color" value="#4f8cff" title="颜色" style="width:32px;height:32px;padding:0;border:none;">
+                                            <button type="submit" class="btn btn-primary btn-sm">记录</button>
+                                        </form>
+                                        <div id="habit-list" style="font-size:0.95em;"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- 数据统计 -->
+                        <div class="card mt-2">
+                            <div class="card-header">日志数据统计</div>
+                            <div class="card-body p-2" id="diary-stats"></div>
+                        </div>
+                    </div>
+
+                    <!-- 文章列表模块 -->
+                    <div class="mb-4" id="post-list-section">
+                        <h3 tabindex="0">文章列表</h3>
+                        <ul class="list-group" id="post-list" aria-label="文章列表">
+                            <!-- 文章列表将由 JS 动态填充 -->
+                        </ul>
+                    </div>
+
+                    <!-- 标签模块 -->
+                    <div class="mb-4">
+                        <h5>标签</h5>
+                        <div>
+                            <span class="badge bg-secondary me-1">编程</span>
+                            <span class="badge bg-secondary me-1">生活</span>
+                            <span class="badge bg-secondary me-1">前端</span>
+                            <span class="badge bg-secondary me-1">学习</span>
+                            <span class="badge bg-secondary me-1">随笔</span>
+                        </div>
+                    </div>
+
+                    <!-- 归档模块 -->
+                    <div class="mb-4">
+                        <h5>归档</h5>
+                        <ul class="list-unstyled">
+                            <li><a href="#">2025年6月</a></li>
+                            <li><a href="#">2025年5月</a></li>
+                            <li><a href="#">2025年4月</a></li>
+                        </ul>
+                    </div>
+
+                    <!-- 博客正文（保留原有文章） -->
+                    <div class="blog-post">
+                        <h2 class="post-title">第一篇博客</h2>
+                        <p class="post-meta">发布于 2025-6-17 | 分类：技术</p>
+                        <p>这是我的第一篇博客文章，将在这里分享技术心得和生活感悟...</p>
+                        
+                        <!-- 新增分享按钮 -->
+                        <div class="social-share">
+                            <h6>分享到：</h6>
+                            <div class="d-flex gap-2">
+                                <a href="#" class="btn btn-primary" id="wechat-share-btn">
+                                    <i class="bi bi-wechat"></i> 微信
+                                </a>
+                                <a href="#" class="btn btn-info" id="weibo-share-btn">
+                                    <i class="bi bi-weibo"></i> 微博
+                                </a>
+                                <a href="#" class="btn btn-primary" id="facebook-share-btn">
+                                    <i class="bi bi-facebook"></i> Facebook
+                                </a>
+                                <a href="#" class="btn btn-info" id="twitter-share-btn">
+                                    <i class="bi bi-twitter"></i> Twitter
+                                </a>
+                                <a href="#" class="btn btn-secondary" id="linkedin-share-btn">
+                                    <i class="bi bi-linkedin"></i> LinkedIn
+                                </a>
+                                <a href="#" class="btn btn-danger" id="pinterest-share-btn">
+                                    <i class="bi bi-pinterest"></i> Pinterest
+                                </a>
+                            </div>
+                        </div>
+                        
+                        <a href="post.html" class="btn btn-primary mt-3">阅读全文</a>
+                        <!-- 新增点赞和打赏 -->
+                        <div class="d-flex gap-2 align-items-center mt-2">
+                            <button class="btn btn-outline-danger btn-sm" id="like-btn"><i class="bi bi-heart"></i> 点赞 <span id="like-count">0</span></button>
+                            <button class="btn btn-outline-warning btn-sm" id="reward-btn"><i class="bi bi-cup-straw"></i> 打赏</button>
+                        </div>
+                    </div>
+
+                    <!-- 评论区模块 -->
+                    <div class="card mt-4" aria-labelledby="comments-title">
+                        <div class="card-header">
+                            <h5 class="mb-0" id="comments-title" tabindex="0">评论区</h5>
+                        </div>
+                        <div class="card-body">
+                            <form id="comment-form" autocomplete="off" aria-label="发表评论">
+                                <div class="mb-3">
+                                    <label for="comment-nickname" class="form-label">昵称</label>
+                                    <input type="text" class="form-control" id="comment-nickname" placeholder="请输入昵称" aria-required="true" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="comment-content" class="form-label">评论</label>
+                                    <textarea class="form-control" id="comment-content" rows="3" placeholder="支持Markdown/表情" aria-required="true" required></textarea>
+                                </div>
+                                <button type="submit" class="btn btn-primary" aria-label="提交评论">提交评论</button>
+                            </form>
+                            <hr>
+                            <div id="comment-list"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="sidebar-area">
+                    <!-- 作者信息模块 -->
+                    <div class="card mb-4" aria-label="作者信息">
+                        <div class="card-body text-center">
+                            <img id="profile-avatar" src="https://via.placeholder.com/80" loading="lazy" class="rounded-circle mb-2" alt="作者头像" width="80" height="80">
+                            <h5 class="card-title" id="profile-name" tabindex="0">William.Lebert</h5>
+                            <p class="card-text" id="profile-bio" tabindex="0">一个热爱编程和生活的开发者，专注于前端与全栈技术。</p>
+                            <div>
+                                <a href="#" class="me-2" aria-label="GitHub" tabindex="0"><i class="bi bi-github"></i></a>
+                                <a href="#" class="me-2" aria-label="Twitter" tabindex="0"><i class="bi bi-twitter"></i></a>
+                                <a href="#" aria-label="邮箱" tabindex="0"><i class="bi bi-envelope"></i></a>
+                            </div>
+                            <!-- 新增个人资料管理按钮 -->
+                            <button class="btn btn-outline-info btn-sm mt-2" id="open-profile-btn" tabindex="0">
+                                <i class="bi bi-person-lines-fill"></i> 个人资料管理
+                            </button>
+                        </div>
+                    </div>
+                    <!-- 热门文章推荐模块 -->
+                    <div class="card mb-4" aria-label="热门文章推荐">
+                        <div class="card-header">
+                            <h6 class="mb-0" tabindex="0">热门文章推荐</h6>
+                        </div>
+                        <ul class="list-group list-group-flush" id="hot-post-list" aria-label="热门文章列表">
+                            <!-- 热门文章将由 JS 动态填充 -->
+                        </ul>
+                    </div>
+
+                    <!-- 图片/文件本地上传和管理 -->
+                    <div class="card mb-4" aria-label="图片/文件管理">
+                        <div class="card-header d-flex justify-content-between align-items-center">
+                            <span>图片/文件管理</span>
+                            <button class="btn btn-sm btn-outline-primary" id="file-upload-btn"><i class="bi bi-upload"></i> 上传</button>
+                            <input type="file" id="file-upload-input" multiple style="display:none;">
+                        </div>
+                        <div class="card-body p-2" id="file-list"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    <!-- 底部导航 -->
+    <footer class="bg-dark text-light mt-5 py-4" role="contentinfo">
+      <div class="container text-center">
+        <div class="mb-2">
+          <a href="#" class="text-light me-3" tabindex="0">首页</a>
+          <a href="#" class="text-light me-3" tabindex="0">归档</a>
+          <a href="#" class="text-light me-3" tabindex="0">标签</a>
+          <a href="#" class="text-light" tabindex="0">关于</a>
+        </div>
+        <div>
+          &copy; 2025 William.Lebert的Blog | Powered by Bootstrap
+        </div>
+        <div id="site-stats" class="mt-2" style="font-size:0.95em;"></div>
+        <!-- 桌面应用导出说明 -->
+        <div class="mt-3" style="font-size:0.95em;">
+          <span>想要更强桌面体验？</span>
+          <a href="https://tauri.app/zh-cn/docs/getting-started/" target="_blank" rel="noopener" class="text-info">Tauri</a> /
+          <a href="https://www.electronjs.org/docs/latest/tutorial/quick-start" target="_blank" rel="noopener" class="text-info">Electron</a>
+          <span>快速将本博客导出为桌面应用。</span>
+        </div>
+      </div>
+    </footer>
+    <!-- 微信分享二维码模态框 -->
+    <div class="modal fade" id="wechatShareModal" tabindex="-1" aria-labelledby="wechatShareModalLabel" aria-hidden="true" role="dialog">
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="wechatShareModalLabel">微信扫码分享</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="关闭"></button>
+          </div>
+          <div class="modal-body text-center">
+            <img id="wechat-qrcode-img" src="https://via.placeholder.com/200x200" alt="微信二维码" style="width:200px;height:200px;">
+            <div class="mt-2 text-muted">请使用微信扫一扫，分享到朋友圈或好友</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 日志/日记弹窗 -->
+    <div class="modal fade" id="diaryModal" tabindex="-1" aria-labelledby="diaryModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-xl modal-dialog-scrollable">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="diaryModalLabel">日志/日记管理</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="关闭"></button>
+          </div>
+          <div class="modal-body">
+            <!-- 日志搜索与筛选 -->
+            <div class="row mb-3">
+              <div class="col-md-4 mb-2">
+                <input type="text" class="form-control" id="diary-search" placeholder="搜索日志内容/标签/日期">
+              </div>
+              <div class="col-md-4 mb-2">
+                <select class="form-select" id="diary-tag-filter">
+                  <option value="">全部标签</option>
+                </select>
+              </div>
+              <div class="col-md-4 mb-2">
+                <input type="month" class="form-control" id="diary-date-filter">
+              </div>
+            </div>
+            <!-- 日志列表 -->
+            <div class="mb-3">
+              <ul class="list-group" id="diary-list"></ul>
+            </div>
+            <!-- 日志编辑器 -->
+            <div class="card">
+              <div class="card-header">新建/编辑日志</div>
+              <div class="card-body">
+                <form id="diary-form" autocomplete="off">
+                  <div class="mb-2">
+                    <input type="date" class="form-control" id="diary-date" required>
+                  </div>
+                  <div class="mb-2">
+                    <input type="text" class="form-control" id="diary-title" placeholder="标题" required>
+                  </div>
+                  <div class="mb-2">
+                    <input type="text" class="form-control" id="diary-tags" placeholder="标签（逗号分隔）">
+                  </div>
+                  <div class="mb-2">
+                    <textarea class="form-control" id="diary-content" rows="5" placeholder="支持Markdown语法" required></textarea>
+                  </div>
+                  <div class="mb-2">
+                    <label class="form-label">插入图片/附件：</label>
+                    <input type="file" id="diary-attachments" multiple>
+                  </div>
+                  <div class="mb-2" id="diary-attachment-preview"></div>
+                  <button type="submit" class="btn btn-primary me-2">保存日志</button>
+                  <button type="button" class="btn btn-secondary" id="diary-clear-btn">清空表单</button>
+                  <button type="button" class="btn btn-success" id="diary-export-btn">导出全部日志</button>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 个人资料管理弹窗 -->
+    <div class="modal fade" id="profileModal" tabindex="-1" aria-labelledby="profileModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-lg modal-dialog-scrollable">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="profileModalLabel">个人资料管理</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="关闭"></button>
+          </div>
+          <div class="modal-body">
+            <!-- 数据安全与隐私设置 -->
+            <div class="alert alert-warning py-2 mb-3" style="font-size:0.95em;">
+              <strong>隐私说明：</strong>所有数据仅保存在本地浏览器，不会同步到任何外部服务器。可选设置访问密码，对本地数据加密保护。
+            </div>
+            <form id="privacy-form" class="mb-3">
+              <div class="input-group input-group-sm mb-2">
+                <span class="input-group-text">访问密码</span>
+                <input type="password" class="form-control" id="privacy-password" placeholder="设置/修改访问密码">
+                <button class="btn btn-outline-secondary" type="button" id="privacy-set-btn">设置</button>
+                <button class="btn btn-outline-danger" type="button" id="privacy-clear-btn">清除</button>
+              </div>
+              <div id="privacy-status" class="form-text text-success"></div>
+            </form>
+            <form id="profile-form" autocomplete="off">
+              <div class="mb-3 text-center">
+                <img id="profile-avatar-preview" src="https://via.placeholder.com/80" class="rounded-circle mb-2" alt="头像预览" width="80" height="80">
+                <input type="file" id="profile-avatar-input" accept="image/*" class="form-control mt-2" style="max-width:200px;margin:auto;">
+              </div>
+              <div class="mb-3">
+                <label class="form-label">姓名</label>
+                <input type="text" class="form-control" id="profile-name-input" maxlength="32">
+              </div>
+              <div class="mb-3">
+                <label class="form-label">联系方式</label>
+                <input type="text" class="form-control" id="profile-contact-input" maxlength="64" placeholder="如邮箱/微信/电话">
+              </div>
+              <div class="mb-3">
+                <label class="form-label">兴趣</label>
+                <input type="text" class="form-control" id="profile-hobby-input" maxlength="64" placeholder="如：编程,音乐,运动">
+              </div>
+              <!-- 自定义字段区域 -->
+              <div id="profile-custom-fields"></div>
+              <div class="mb-2">
+                <button type="button" class="btn btn-outline-secondary btn-sm" id="add-custom-field-btn">
+                  <i class="bi bi-plus-circle"></i> 添加自定义字段
+                </button>
+              </div>
+              <div class="mb-2">
+                <button type="submit" class="btn btn-primary me-2">保存资料</button>
+                <button type="button" class="btn btn-secondary" id="profile-clear-btn">重置</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 打赏二维码模态框 -->
+    <div class="modal fade" id="rewardModal" tabindex="-1" aria-labelledby="rewardModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="rewardModalLabel">支持作者</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="关闭"></button>
+          </div>
+          <div class="modal-body text-center">
+            <img src="https://via.placeholder.com/180x180?text=微信/支付宝" alt="打赏二维码" style="width:180px;height:180px;">
+            <div class="mt-2 text-muted">感谢您的支持！</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- AI 机器人浮动按钮 -->
+    <button id="ai-bot-btn" title="AI助手" style="position:fixed;right:18px;bottom:130px;z-index:1100;border-radius:50%;width:48px;height:48px;background:#2563eb;color:#fff;box-shadow:0 2px 8px #0002;border:none;display:flex;align-items:center;justify-content:center;">
+        <i class="bi bi-robot" style="font-size:1.6em;"></i>
+    </button>
+
+    <!-- AI 机器人对话框模态框 -->
+    <div class="modal fade" id="aiBotModal" tabindex="-1" aria-labelledby="aiBotModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered" style="max-width:350px;">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="aiBotModalLabel"><i class="bi bi-robot"></i> AI助手</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="关闭"></button>
+          </div>
+          <div class="modal-body" style="max-height:350px;overflow-y:auto;">
+            <div id="ai-bot-chat" style="font-size:1em;min-height:120px;">
+              <div class="mb-2"><span class="badge bg-primary">AI助手</span> 你好！我是AI机器人，可以帮你了解本站功能。你可以问我：</div>
+              <ul style="padding-left:1.2em;">
+                <li>这个网站能做什么？</li>
+                <li>如何写日志/日记？</li>
+                <li>怎么切换深色模式？</li>
+                <li>如何管理个人资料？</li>
+                <li>如何上传图片或文件？</li>
+              </ul>
+            </div>
+          </div>
+          <div class="modal-footer p-2">
+            <form id="ai-bot-form" class="d-flex w-100 gap-2" autocomplete="off" onsubmit="return false;">
+              <input type="text" id="ai-bot-input" class="form-control form-control-sm" placeholder="请输入你的问题..." maxlength="80" autocomplete="off">
+              <button type="submit" class="btn btn-primary btn-sm"><i class="bi bi-send"></i></button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+        // 统一事件绑定方式
+        function toggleTheme() {
+            document.body.classList.toggle('dark-theme');
+            localStorage.setItem('theme', 
+                document.body.classList.contains('dark-theme') ? 'dark' : 'light');
+        }
+
+        // 通用分享函数
+        function shareTo(platform) {
+            const url = encodeURIComponent(window.location.href);
+            const title = encodeURIComponent(document.title);
+            const description = encodeURIComponent(document.querySelector('meta[name="description"]')?.content || '');
+            switch (platform) {
+                case 'wechat':
+                    // document.getElementById('wechat-qrcode-img').src = '实际二维码图片地址';
+                    var modal = new bootstrap.Modal(document.getElementById('wechatShareModal'));
+                    modal.show();
+                    break;
+                case 'weibo':
+                    window.open(`https://service.weibo.com/share/share.php?url=${url}&title=${title}`, '_blank', 'noopener');
+                    break;
+                case 'facebook':
+                    window.open(`https://www.facebook.com/sharer/sharer.php?u=${url}`, '_blank', 'noopener');
+                    break;
+                case 'twitter':
+                    window.open(`https://twitter.com/intent/tweet?url=${url}&text=${title}`, '_blank', 'noopener');
+                    break;
+                case 'linkedin':
+                    window.open(`https://www.linkedin.com/shareArticle?url=${url}&title=${title}&summary=${description}`, '_blank', 'noopener');
+                    break;
+                case 'pinterest':
+                    const media = encodeURIComponent('https://example.com/featured-image.jpg');
+                    window.open(`https://pinterest.com/pin/create/button/?url=${url}&media=${media}&description=${title}`, '_blank', 'noopener');
+                    break;
+            }
+        }
+
+        // 示例：文章数据（可替换为后端接口获取）
+        const posts = [
+            { title: "如何高效学习编程", url: "post1.html", tag: "技术", tagClass: "primary", hot: true },
+            { title: "我的生活随笔", url: "post2.html", tag: "生活", tagClass: "success", hot: true },
+            { title: "前端开发新趋势", url: "post3.html", tag: "前端", tagClass: "info", hot: true },
+            { title: "2025年目标与计划", url: "post4.html", tag: "随笔", tagClass: "secondary", hot: false }
+        ];
+
+        // 动态渲染文章列表
+        function renderPostList() {
+            const postList = document.getElementById('post-list');
+            if (!postList) return;
+            postList.innerHTML = '';
+            posts.forEach(post => {
+                const li = document.createElement('li');
+                li.className = 'list-group-item d-flex justify-content-between align-items-center';
+                li.innerHTML = `<a href="${post.url}" tabindex="0">${post.title}</a>
+                    <span class="badge bg-${post.tagClass} rounded-pill">${post.tag}</span>`;
+                postList.appendChild(li);
+            });
+        }
+
+        // 动态渲染热门文章
+        function renderHotPosts() {
+            const hotList = document.getElementById('hot-post-list');
+            if (!hotList) return;
+            hotList.innerHTML = '';
+            posts.filter(p => p.hot).forEach(post => {
+                const li = document.createElement('li');
+                li.className = 'list-group-item';
+                li.innerHTML = `<a href="${post.url}" tabindex="0">${post.title}</a>`;
+                hotList.appendChild(li);
+            });
+        }
+
+        // 页面加载时应用保存的主题，并统一事件绑定
+        window.addEventListener('DOMContentLoaded', () => {
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme === 'dark') document.body.classList.add('dark-theme');
+
+            // 绑定按钮事件
+            document.getElementById('toggle-theme-btn').addEventListener('click', function(e) {
+                toggleTheme();
+                this.setAttribute('aria-pressed', document.body.classList.contains('dark-theme'));
+            });
+            document.getElementById('wechat-share-btn').addEventListener('click', function(e) { e.preventDefault(); shareTo('wechat'); });
+            document.getElementById('weibo-share-btn').addEventListener('click', function(e) { e.preventDefault(); shareTo('weibo'); });
+            document.getElementById('facebook-share-btn').addEventListener('click', function(e) { e.preventDefault(); shareTo('facebook'); });
+            document.getElementById('twitter-share-btn').addEventListener('click', function(e) { e.preventDefault(); shareTo('twitter'); });
+            document.getElementById('linkedin-share-btn').addEventListener('click', function(e) { e.preventDefault(); shareTo('linkedin'); });
+            document.getElementById('pinterest-share-btn').addEventListener('click', function(e) { e.preventDefault(); shareTo('pinterest'); });
+
+            renderPostList();
+            renderHotPosts();
+        });
+
+        // 响应式辅助：自动关闭移动端菜单
+        document.addEventListener('DOMContentLoaded', function() {
+            var navCollapse = document.getElementById('mainNavbar');
+            if (navCollapse) {
+                navCollapse.addEventListener('click', function(e) {
+                    if (e.target.tagName === 'A' && window.innerWidth < 992) {
+                        var bsCollapse = bootstrap.Collapse.getOrCreateInstance(navCollapse);
+                        bsCollapse.hide();
+                    }
+                });
+            }
+        });
+
+        // 深色模式自动适配系统
+        (function() {
+            const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+            if (!localStorage.getItem('theme') && prefersDark) {
+                document.body.classList.add('dark-theme');
+            }
+        })();
+
+        // 快捷键：深色模式切换、主内容聚焦、资料/日志弹窗
+        document.addEventListener('keydown', function(e) {
+            // Ctrl+M/Alt+M 跳主内容
+            if ((e.ctrlKey || e.altKey) && e.key.toLowerCase() === 'm') {
+                const main = document.getElementById('main-content');
+                if (main) { main.focus(); e.preventDefault(); }
+            }
+            // Ctrl+B/Alt+B 切换深色模式
+            if ((e.ctrlKey || e.altKey) && e.key.toLowerCase() === 'b') {
+                document.getElementById('toggle-theme-btn').click();
+                e.preventDefault();
+            }
+            // Ctrl+J/Alt+J 打开日志
+            if ((e.ctrlKey || e.altKey) && e.key.toLowerCase() === 'j') {
+                document.getElementById('open-diary-btn').click();
+                e.preventDefault();
+            }
+            // Ctrl+P/Alt+P 打开资料
+            if ((e.ctrlKey || e.altKey) && e.key.toLowerCase() === 'p') {
+                document.getElementById('open-profile-btn').click();
+                e.preventDefault();
+            }
+        });
+
+        // 无障碍：弹窗自动聚焦第一个输入
+        function focusFirstInput(modalId) {
+            setTimeout(() => {
+                const modal = document.getElementById(modalId);
+                if (modal) {
+                    const input = modal.querySelector('input,textarea,select,button');
+                    if (input) input.focus();
+                }
+            }, 300);
+        }
+        document.addEventListener('DOMContentLoaded', function() {
+            // 日志弹窗
+            document.getElementById('open-diary-btn').addEventListener('click', function() {
+                focusFirstInput('diaryModal');
+            });
+            // 资料弹窗
+            document.getElementById('open-profile-btn').addEventListener('click', function() {
+                focusFirstInput('profileModal');
+            });
+        });
+
+        // ====== 动态背景特效（彩色粒子连线）======
+        (function() {
+            const canvas = document.getElementById('bg-canvas');
+            const ctx = canvas.getContext('2d');
+            let w = window.innerWidth, h = window.innerHeight;
+            let particles = [];
+            const PARTICLE_NUM = 80;
+            const MAX_DIST = 120;
+            function resize() {
+                w = window.innerWidth;
+                h = window.innerHeight;
+                canvas.width = w;
+                canvas.height = h;
+            }
+            window.addEventListener('resize', resize);
+            resize();
+
+            function randomColor() {
+                // HSL 彩色渐变
+                return `hsl(${Math.floor(Math.random()*360)},80%,60%)`;
+            }
+
+            function createParticle() {
+                return {
+                    x: Math.random() * w,
+                    y: Math.random() * h,
+                    vx: (Math.random() - 0.5) * 1.2,
+                    vy: (Math.random() - 0.5) * 1.2,
+                    r: 2 + Math.random() * 2,
+                    color: randomColor()
+                };
+            }
+
+            function initParticles() {
+                particles = [];
+                for (let i = 0; i < PARTICLE_NUM; i++) {
+                    particles.push(createParticle());
+                }
+            }
+            initParticles();
+
+            function draw() {
+                ctx.clearRect(0, 0, w, h);
+                // 画粒子
+                for (let p of particles) {
+                    ctx.beginPath();
+                    ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+                    ctx.fillStyle = p.color;
+                    ctx.shadowColor = p.color;
+                    ctx.shadowBlur = 8;
+                    ctx.fill();
+                }
+                ctx.shadowBlur = 0;
+                // 画连线
+                for (let i = 0; i < particles.length; i++) {
+                    for (let j = i + 1; j < particles.length; j++) {
+                        const p1 = particles[i], p2 = particles[j];
+                        const dx = p1.x - p2.x, dy = p1.y - p2.y;
+                        const dist = Math.sqrt(dx*dx + dy*dy);
+                        if (dist < MAX_DIST) {
+                            ctx.beginPath();
+                            ctx.moveTo(p1.x, p1.y);
+                            ctx.lineTo(p2.x, p2.y);
+                            ctx.strokeStyle = `rgba(150,150,255,${1 - dist/MAX_DIST})`;
+                            ctx.lineWidth = 1;
+                            ctx.stroke();
+                        }
+                    }
+                }
+            }
+
+            function update() {
+                for (let p of particles) {
+                    p.x += p.vx;
+                    p.y += p.vy;
+                    if (p.x < 0 || p.x > w) p.vx *= -1;
+                    if (p.y < 0 || p.y > h) p.vy *= -1;
+                }
+            }
+
+            function animate() {
+                update();
+                draw();
+                requestAnimationFrame(animate);
+            }
+            animate();
+        })();
+
+        // ===== 日志/日记功能 =====
+        // 日志数据结构: {id, date, title, tags, content, attachments:[{name, type, dataURL}]}
+        function getDiaries() {
+            return getEncrypted('diaries') || [];
+        }
+        function saveDiaries(list) {
+            setEncrypted('diaries', list);
+        }
+        function getProfile() {
+            return getEncrypted('profile') || {};
+        }
+        function saveProfile(data) {
+            setEncrypted('profile', data);
+        }
+
+        // 侧栏头像同步函数
+        function updateSidebarProfileAvatar() {
+            const profile = getProfile();
+            if (profile && profile.avatar) {
+                document.getElementById('profile-avatar').src = profile.avatar;
+            }
+        }
+
+        // 个人资料表单填充和保存时同步头像
+        function fillProfileForm() {
+            const profile = getProfile();
+            document.getElementById('profile-name-input').value = profile.name || '';
+            document.getElementById('profile-contact-input').value = profile.contact || '';
+            document.getElementById('profile-hobby-input').value = profile.hobby || '';
+            // 头像预览
+            if (profile.avatar) {
+                document.getElementById('profile-avatar-preview').src = profile.avatar;
+            }
+            // 自定义字段
+            const customFields = profile.customFields || [];
+            const customFieldsContainer = document.getElementById('profile-custom-fields');
+            customFieldsContainer.innerHTML = '';
+            customFields.forEach((field, index) => {
+                const div = document.createElement('div');
+                div.className = 'input-group input-group-sm mb-2';
+                div.innerHTML = `
+                    <span class="input-group-text">字段${index+1}</span>
+                    <input type="text" class="form-control" value="${field}" placeholder="自定义内容">
+                    <button class="btn btn-outline-danger btn-sm" type="button" onclick="removeCustomField(this)">删除</button>
+                `;
+                customFieldsContainer.appendChild(div);
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const profile = getProfile();
+            // 初始化头像
+            if (profile.avatar) {
+                document.getElementById('profile-avatar').src = profile.avatar;
+                document.getElementById('profile-avatar-preview').src = profile.avatar;
+            }
+            // 填充个人资料
+            fillProfileForm();
+            // 头像上传预览
+            document.getElementById('profile-avatar-input').addEventListener('change', function() {
+                const file = this.files[0];
+                if (file && file.type.startsWith('image/')) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        document.getElementById('profile-avatar-preview').src = e.target.result;
+                    };
+                    reader.readAsDataURL(file);
+                }
+            });
+
+            // 保存资料时保存头像并同步侧栏
+            document.getElementById('profile-form').addEventListener('submit', function(e) {
+                e.preventDefault();
+                const profile = getProfile();
+                // 保存头像
+                profile.avatar = document.getElementById('profile-avatar-preview').src;
+                // 其他字段保存
+                profile.name = document.getElementById('profile-name-input').value.trim();
+                profile.contact = document.getElementById('profile-contact-input').value.trim();
+                profile.hobby = document.getElementById('profile-hobby-input').value.trim();
+                // 自定义字段保存
+                const customFields = Array.from(document.querySelectorAll('#profile-custom-fields .input-group input'));
+                profile.customFields = customFields.map(input => input.value.trim()).filter(v => v);
+                // 保存到本地
+                saveProfile(profile);
+                updateSidebarProfileAvatar();
+                announce('资料已保存');
+            });
+
+            // 页面加载时同步侧栏头像
+            updateSidebarProfileAvatar();
+        });
+
+        // ===== 数据安全与隐私：本地加密存储 =====
+        // 简单AES加密实现（CryptoJS CDN），如需更强安全可引入更专业库
+        function aesEncrypt(text, password) {
+            if (!window.CryptoJS) return text;
+            return CryptoJS.AES.encrypt(text, password).toString();
+        }
+        function aesDecrypt(cipher, password) {
+            if (!window.CryptoJS) return cipher;
+            try {
+                const bytes = CryptoJS.AES.decrypt(cipher, password);
+                return bytes.toString(CryptoJS.enc.Utf8) || '';
+            } catch {
+                return '';
+            }
+        }
+        // 密码本地存储（仅sessionStorage，页面关闭即失效）
+        function setLocalPassword(pw) {
+            sessionStorage.setItem('local_pw', pw);
+        }
+        function getLocalPassword() {
+            return sessionStorage.getItem('local_pw') || '';
+        }
+        // 加密存储包装
+        function setEncrypted(key, value) {
+            const pw = getLocalPassword();
+            if (pw) {
+                localStorage.setItem(key, aesEncrypt(JSON.stringify(value), pw));
+            } else {
+                localStorage.setItem(key, JSON.stringify(value));
+            }
+        }
+        function getEncrypted(key) {
+            const pw = getLocalPassword();
+            const raw = localStorage.getItem(key);
+            if (!raw) return null;
+            if (pw) {
+                const dec = aesDecrypt(raw, pw);
+                try { return JSON.parse(dec); } catch { return null; }
+            } else {
+                try { return JSON.parse(raw); } catch { return null; }
+            }
+        }
+        // 隐私设置UI逻辑
+        function updatePrivacyStatus() {
+            const pw = getLocalPassword();
+            document.getElementById('privacy-status').textContent = pw ? '已启用本地加密保护' : '未设置访问密码，数据为本地明文存储';
+        }
+        document.addEventListener('DOMContentLoaded', function() {
+            // 密码设置
+            document.getElementById('privacy-set-btn').addEventListener('click', function() {
+                const pw = document.getElementById('privacy-password').value.trim();
+                if (pw.length < 4) {
+                    document.getElementById('privacy-status').textContent = '密码至少4位';
+                    document.getElementById('privacy-status').className = 'form-text text-danger';
+                    return;
+                }
+                setLocalPassword(pw);
+                // 重新加密所有数据
+                const diaries = getDiaries();
+                const profile = getProfile();
+                setEncrypted('diaries', diaries);
+                setEncrypted('profile', profile);
+                document.getElementById('privacy-password').value = '';
+                document.getElementById('privacy-status').textContent = '访问密码已设置，本地数据已加密';
+                document.getElementById('privacy-status').className = 'form-text text-success';
+            });
+            // 密码清除
+            document.getElementById('privacy-clear-btn').addEventListener('click', function() {
+                setLocalPassword('');
+                // 解密存储
+                const diaries = getDiaries();
+                const profile = getProfile();
+                localStorage.setItem('diaries', JSON.stringify(diaries));
+                localStorage.setItem('profile', JSON.stringify(profile));
+                document.getElementById('privacy-status').textContent = '访问密码已清除，数据为本地明文存储';
+                document.getElementById('privacy-status').className = 'form-text text-success';
+            });
+            updatePrivacyStatus();
+        });
+
+        // 重写日志/资料存取为加密
+        function getDiaries() {
+            return getEncrypted('diaries') || [];
+        }
+        function saveDiaries(list) {
+            setEncrypted('diaries', list);
+        }
+        function getProfile() {
+            return getEncrypted('profile') || {};
+        }
+        function saveProfile(data) {
+            setEncrypted('profile', data);
+        }
+
+        // 打开资料/日志弹窗时检测加密
+        document.addEventListener('DOMContentLoaded', function() {
+            // ...existing code...
+            document.getElementById('open-profile-btn').addEventListener('click', function() {
+                // 若有加密且未输入密码，弹窗提示
+                if (localStorage.getItem('profile') && !getLocalPassword() && localStorage.getItem('profile').length > 100) {
+                    let pw = prompt('请输入访问密码以解锁个人资料：');
+                    if (pw) setLocalPassword(pw);
+                }
+                fillProfileForm();
+                var modal = new bootstrap.Modal(document.getElementById('profileModal'));
+                modal.show();
+                updatePrivacyStatus();
+            });
+            document.getElementById('open-diary-btn').addEventListener('click', function() {
+                if (localStorage.getItem('diaries') && !getLocalPassword() && localStorage.getItem('diaries').length > 100) {
+                    let pw = prompt('请输入访问密码以解锁日志：');
+                    if (pw) setLocalPassword(pw);
+                }
+                renderDiaryList();
+                clearDiaryForm();
+                var modal = new bootstrap.Modal(document.getElementById('diaryModal'));
+                modal.show();
+                updatePrivacyStatus();
+            });
+        });
+
+        // ===== 日历视图 =====
+        function renderDiaryCalendar() {
+            const container = document.getElementById('diary-calendar-container');
+            const diaries = getDiaries();
+            const today = new Date();
+            let year = today.getFullYear(), month = today.getMonth();
+            // 支持切换月份
+            if (window._calendarYM) { year = window._calendarYM.year; month = window._calendarYM.month; }
+            else window._calendarYM = {year, month};
+            // 统计本月日志
+            const monthStr = `${year}-${String(month+1).padStart(2,'0')}`;
+            const monthDiaries = diaries.filter(d => d.date && d.date.startsWith(monthStr));
+            // 日历头
+            let html = `<div class="d-flex justify-content-between align-items-center mb-1">
+                <button class="btn btn-sm btn-outline-secondary" id="calendar-prev-btn">&lt;</button>
+                <span style="font-weight:bold;">${year}年${month+1}月</span>
+                <button class="btn btn-sm btn-outline-secondary" id="calendar-next-btn">&gt;</button>
+            </div>`;
+            // 日历表格
+            const firstDay = new Date(year, month, 1).getDay();
+            const daysInMonth = new Date(year, month+1, 0).getDate();
+            html += '<table class="table table-sm table-bordered mb-0 text-center align-middle" style="table-layout:fixed;"><thead><tr>';
+            '日一二三四五六'.split('').forEach(d=>html+=`<th style="font-size:0.95em;">${d}</th>`);
+            html += '</tr></thead><tbody><tr>';
+            for(let i=0;i<firstDay;i++) html+='<td></td>';
+            for(let d=1;d<=daysInMonth;d++) {
+                const dateStr = `${year}-${String(month+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+                const hasDiary = diaries.some(di=>di.date===dateStr);
+                html += `<td style="padding:0.3em;${hasDiary?'background:#dbeafe;font-weight:bold;cursor:pointer;':''}" data-date="${dateStr}" tabindex="0" aria-label="${dateStr}${hasDiary?' 有日志':''}">${d}${hasDiary?'📝':''}</td>`;
+                if ((firstDay+d)%7===0 && d!==daysInMonth) html+='</tr><tr>';
+            }
+            let lastRow = (firstDay+daysInMonth)%7;
+            if (lastRow!==0) for(let i=lastRow;i<7;i++) html+='<td></td>';
+            html+='</tr></tbody></table>';
+            container.innerHTML = html;
+            // 事件
+            container.querySelectorAll('td[data-date]').forEach(td=>{
+                td.onclick = ()=> {
+                    const date = td.getAttribute('data-date');
+                    // 筛选日志
+                    document.getElementById('diary-date-filter').value = date.slice(0,7);
+                    renderDiaryList({date:date.slice(0,7)});
+                };
+            });
+            document.getElementById('calendar-prev-btn').onclick = ()=>{
+                window._calendarYM.month--;
+                if(window._calendarYM.month<0){window._calendarYM.month=11;window._calendarYM.year--;}
+                renderDiaryCalendar();
+            };
+            document.getElementById('calendar-next-btn').onclick = ()=>{
+                window._calendarYM.month++;
+                if(window._calendarYM.month>11){window._calendarYM.month=0;window._calendarYM.year++;}
+                renderDiaryCalendar();
+            };
+            document.getElementById('calendar-today-btn').onclick = ()=>{
+                window._calendarYM = {year:today.getFullYear(),month:today.getMonth()};
+                renderDiaryCalendar();
+            };
+        }
+        document.addEventListener('DOMContentLoaded', renderDiaryCalendar);
+
+        // ===== 心情/打卡/习惯追踪 =====
+        function getHabits() {
+            return JSON.parse(localStorage.getItem('habits')||'[]');
+        }
+        function saveHabits(list) {
+            localStorage.setItem('habits', JSON.stringify(list));
+        }
+        function renderHabitList() {
+            const list = getHabits();
+            const html = list.length ? list.slice(-10).reverse().map(h=>
+                `<span class="badge me-1 mb-1" style="background:${h.color||'#4f8cff'}">${h.date} ${h.type}：${h.desc||''}</span>`
+            ).join('') : '<span class="text-muted">暂无记录</span>';
+            document.getElementById('habit-list').innerHTML = html;
+        }
+        document.addEventListener('DOMContentLoaded', function() {
+            renderHabitList();
+            document.getElementById('habit-form').addEventListener('submit', function(e){
+                e.preventDefault();
+                const type = document.getElementById('habit-type').value;
+                const desc = document.getElementById('habit-desc').value.trim();
+                const color = document.getElementById('habit-color').value;
+                const date = new Date().toISOString().slice(0,10);
+                const list = getHabits();
+                list.push({type,desc,color,date});
+                saveHabits(list);
+                renderHabitList();
+                this.reset();
+            });
+        });
+
+        // ===== 日志数据统计 =====
+        function renderDiaryStats() {
+            const diaries = getDiaries();
+            const total = diaries.length;
+            const byMonth = {};
+            diaries.forEach(d=>{
+                const ym = d.date?d.date.slice(0,7):'未知';
+                byMonth[ym] = (byMonth[ym]||0)+1;
+            });
+            let html = `<div>总日志数：<strong>${total}</strong></div>`;
+            html += '<div class="mt-1">每月日志：</div><ul class="mb-0">';
+            Object.keys(byMonth).sort().reverse().forEach(ym=>{
+                html+=`<li>${ym}：${byMonth[ym]} 篇</li>`;
+            });
+            html+='</ul>';
+            document.getElementById('diary-stats').innerHTML = html;
+        }
+        document.addEventListener('DOMContentLoaded', renderDiaryStats);
+
+        // ===== 图片/文件本地上传和管理 =====
+        function getFiles() {
+            return JSON.parse(localStorage.getItem('files')||'[]');
+        }
+        function saveFiles(list) {
+            localStorage.setItem('files', JSON.stringify(list));
+        }
+        function renderFileList() {
+            const files = getFiles();
+            const container = document.getElementById('file-list');
+            if (!files.length) {
+                container.innerHTML = '<span class="text-muted">暂无文件</span>';
+                return;
+            }
+            container.innerHTML = files.map((f,i)=>{
+                if (f.type && f.type.startsWith('image/')) {
+                    return `<div class="mb-2"><img src="${f.dataURL}" alt="${f.name}" style="max-width:80px;max-height:80px;border-radius:6px;"> <span>${f.name}</span>
+                    <button class="btn btn-sm btn-outline-danger ms-1" onclick="removeFile(${i})" title="删除"><i class="bi bi-trash"></i></button>
+                    <a href="${f.dataURL}" download="${f.name}" class="btn btn-sm btn-outline-primary ms-1" title="下载"><i class="bi bi-download"></i></a>
+                    </div>`;
+                } else {
+                    return `<div class="mb-2"><i class="bi bi-file-earmark"></i> <span>${f.name}</span>
+                    <button class="btn btn-sm btn-outline-danger ms-1" onclick="removeFile(${i})" title="删除"><i class="bi bi-trash"></i></button>
+                    <a href="${f.dataURL}" download="${f.name}" class="btn btn-sm btn-outline-primary ms-1" title="下载"><i class="bi bi-download"></i></a>
+                    </div>`;
+                }
+            }).join('');
+        }
+        function removeFile(idx) {
+            const files = getFiles();
+            files.splice(idx,1);
+            saveFiles(files);
+            renderFileList();
+        }
+        window.removeFile = removeFile;
+        document.addEventListener('DOMContentLoaded', function() {
+            renderFileList();
+            const uploadBtn = document.getElementById('file-upload-btn');
+            const uploadInput = document.getElementById('file-upload-input');
+            if (uploadBtn && uploadInput) {
+                uploadBtn.addEventListener('click', function(){
+                    uploadInput.value = '';
+                    uploadInput.click();
+                });
+                uploadInput.addEventListener('change', function(){
+                    const files = Array.from(this.files);
+                    if (!files.length) return;
+                    uploadBtn.disabled = true;
+                    uploadBtn.innerHTML = '<span class="spinner-border spinner-border-sm"></span> 上传中...';
+                    const oldFiles = getFiles();
+                    let count = 0, total = files.length, errorMsg = '';
+                    files.forEach(file=>{
+                        // 限制图片2MB，其他文件5MB
+                        const isImage = file.type.startsWith('image/');
+                        const maxSize = isImage ? 2*1024*1024 : 5*1024*1024;
+                        if (file.size > maxSize) {
+                            errorMsg += `${file.name} 超过${isImage?'2MB':'5MB'}，已跳过。\n`;
+                            count++;
+                            if(count===total){
+                                saveFiles(oldFiles);
+                                renderFileList();
+                                uploadBtn.disabled = false;
+                                uploadBtn.innerHTML = '<i class="bi bi-upload"></i> 上传';
+                                if(errorMsg) alert(errorMsg);
+                            }
+                            return;
+                        }
+                        const reader = new FileReader();
+                        reader.onload = function(e){
+                            oldFiles.push({name:file.name,type:file.type,dataURL:e.target.result});
+                            count++;
+                            if(count===total){
+                                saveFiles(oldFiles);
+                                renderFileList();
+                                uploadBtn.disabled = false;
+                                uploadBtn.innerHTML = '<i class="bi bi-upload"></i> 上传';
+                                if(errorMsg) alert(errorMsg);
+                            }
+                        };
+                        reader.onerror = function() {
+                            errorMsg += `${file.name} 读取失败。\n`;
+                            count++;
+                            if(count===total){
+                                saveFiles(oldFiles);
+                                renderFileList();
+                                uploadBtn.disabled = false;
+                                uploadBtn.innerHTML = '<i class="bi bi-upload"></i> 上传';
+                                if(errorMsg) alert(errorMsg);
+                            }
+                        };
+                        reader.readAsDataURL(file);
+                    });
+                });
+            }
+        });
+        // 日志/日历/统计联动
+        document.addEventListener('DOMContentLoaded', function() {
+            // 日志保存后刷新日历和统计
+            const origSaveDiaries = saveDiaries;
+            window.saveDiaries = function(list) {
+                origSaveDiaries(list);
+                renderDiaryCalendar();
+                renderDiaryStats();
+            };
+        });
+
+        // 日志/资料导出功能完善
+        document.getElementById('diary-export-btn').addEventListener('click', function() {
+            const diaries = getDiaries();
+            const blob = new Blob([JSON.stringify(diaries, null, 2)], {type: 'application/json'});
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'diaries.json';
+            a.click();
+            URL.revokeObjectURL(url);
+        });
+
+        // 自动锁定（如5分钟无操作自动清除本地密码）
+        let lastActive = Date.now();
+        ['mousemove','keydown','click'].forEach(evt => {
+            document.addEventListener(evt, () => lastActive = Date.now());
+        });
+        setInterval(() => {
+            if (getLocalPassword() && Date.now() - lastActive > 5*60*1000) {
+                setLocalPassword('');
+                alert('已自动锁定，请重新输入访问密码');
+            }
+        }, 60*1000);
+
+        // 更丰富的无障碍支持：动态设置 ARIA-live
+        function announce(msg) {
+            let live = document.getElementById('aria-live');
+            if (!live) {
+                live = document.createElement('div');
+                live.id = 'aria-live';
+                live.setAttribute('aria-live', 'polite');
+                live.style.position = 'absolute'; live.style.left='-9999px';
+                document.body.appendChild(live);
+            }
+            live.textContent = msg;
+        }
+        // 例如在保存资料后调用 announce('资料已保存');
+
+        // ===== PWA 安装体验优化 =====
+        let deferredPrompt;
+        const pwaBtn = document.getElementById('pwa-install-btn');
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            if (pwaBtn) pwaBtn.style.display = 'block';
+        });
+        if (pwaBtn) {
+            pwaBtn.addEventListener('click', async () => {
+                if (deferredPrompt) {
+                    deferredPrompt.prompt();
+                    const { outcome } = await deferredPrompt.userChoice;
+                    if (outcome === 'accepted') {
+                        pwaBtn.style.display = 'none';
+                    }
+                    deferredPrompt = null;
+                }
+            });
+        }
+        window.addEventListener('appinstalled', () => {
+            if (pwaBtn) pwaBtn.style.display = 'none';
+            announce('已成功安装到桌面，可离线访问！');
+        });
+
+        // ===== 推送通知权限申请与演示 =====
+        function requestNotificationPermission() {
+            if ('Notification' in window && Notification.permission === 'default') {
+                Notification.requestPermission().then(function(permission) {
+                    if (permission === 'granted') {
+                        announce('通知权限已授予，可接收推送消息。');
+                    }
+                });
+            }
+        }
+        // 页面首次加载时尝试申请通知权限
+        document.addEventListener('DOMContentLoaded', function() {
+            setTimeout(requestNotificationPermission, 2000);
+        });
+
+        // 简单推送演示（仅本地，实际推送需后端支持）
+        function showDemoNotification(title, body) {
+            if ('Notification' in window && Notification.permission === 'granted') {
+                new Notification(title, { body, icon: '/favicon.ico' });
+            }
+        }
+        // 可在某些操作后调用 showDemoNotification('新消息', '您有一条新评论！');
+
+        // PWA 注册
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('sw.js').then(function(reg) {
+                // 可选：监听更新
+                // reg.onupdatefound = ...
+            });
+        }
+
+        // 主题色切换器
+        const themeColorPicker = document.getElementById('theme-color-picker');
+        if (themeColorPicker) {
+            themeColorPicker.value = localStorage.getItem('themeColor') || '#2563eb';
+            document.documentElement.style.setProperty('--bs-primary', themeColorPicker.value);
+            themeColorPicker.addEventListener('input', function() {
+                document.documentElement.style.setProperty('--bs-primary', this.value);
+                document.querySelector('meta[name="theme-color"]').setAttribute('content', this.value);
+                localStorage.setItem('themeColor', this.value);
+            });
+        }
+
+        // 高级：自动夜间模式切换（根据时间段）
+        function autoNightMode() {
+            const hour = new Date().getHours();
+            if (!localStorage.getItem('theme')) {
+                if (hour >= 19 || hour < 7) {
+                    document.body.classList.add('dark-theme');
+                } else {
+                    document.body.classList.remove('dark-theme');
+                }
+            }
+        }
+        setInterval(autoNightMode, 10 * 60 * 1000); // 每10分钟自动检测
+        autoNightMode();
+
+        // 高级：深色模式切换动画
+        document.body.addEventListener('transitionend', function(e) {
+            if (e.propertyName === 'background-color') {
+                document.body.classList.remove('theme-transition');
+            }
+        });
+        function toggleDarkThemeAnimated() {
+            document.body.classList.add('theme-transition');
+            document.body.classList.toggle('dark-theme');
+        }
+        // CSS动画
+        const style = document.createElement('style');
+        style.innerHTML = `
+        .theme-transition {
+            transition: background-color 0.5s cubic-bezier(.4,2,.6,1), color 0.5s cubic-bezier(.4,2,.6,1);
+        }
+        `;
+        document.head.appendChild(style);
+
+        // 修复深色模式切换，带动画
+        document.addEventListener('DOMContentLoaded', function() {
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme === 'dark') {
+                document.body.classList.add('dark-theme');
+            } else {
+                document.body.classList.remove('dark-theme');
+            }
+            const toggleBtn = document.getElementById('toggle-theme-btn');
+            if (toggleBtn) {
+                toggleBtn.addEventListener('click', function(e) {
+                    toggleDarkThemeAnimated();
+                    const isDark = document.body.classList.contains('dark-theme');
+                    localStorage.setItem('theme', isDark ? 'dark' : 'light');
+                    this.setAttribute('aria-pressed', isDark);
+                });
+            }
+        });
+
+        // 高级：AI 文章推荐（模拟，实际可接后端API）
+        function aiRecommendPosts() {
+            // 假设根据用户最近浏览/评论关键词推荐
+            const keywords = ['前端', '技术', '学习', '生活'];
+            const posts = [
+                { title: "AI驱动的前端开发", url: "#", tag: "前端", score: 0.98 },
+                { title: "高效学习方法", url: "#", tag: "学习", score: 0.95 },
+                { title: "技术人生感悟", url: "#", tag: "技术", score: 0.93 },
+                { title: "生活中的编程思维", url: "#", tag: "生活", score: 0.91 }
+            ];
+            // 按score排序
+            posts.sort((a, b) => b.score - a.score);
+            const container = document.getElementById('hot-post-list');
+            if (container) {
+                container.innerHTML = posts.map(p =>
+                    `<li class="list-group-item"><a href="${p.url}" tabindex="0">${p.title} <span class="badge bg-info ms-1">${p.tag}</span></a></li>`
+                ).join('');
+            }
+        }
+        document.addEventListener('DOMContentLoaded', aiRecommendPosts);
+
+        // 高级：WebAssembly 性能加速（模拟，实际需 wasm 文件）
+        async function wasmDemo() {
+            // 这里只做演示，实际需部署 .wasm 文件
+            // const wasm = await WebAssembly.instantiateStreaming(fetch('fastmath.wasm'));
+            // const { fastAdd } = wasm.instance.exports;
+            // console.log('WASM加速结果:', fastAdd(123, 456));
+        }
+        wasmDemo();
+
+        // 富媒体渲染函数
+        function renderRichContent(raw) {
+            // Markdown -> HTML
+            let html = marked.parse(raw || '');
+            // 代码高亮
+            const tmp = document.createElement('div');
+            tmp.innerHTML = html;
+            tmp.querySelectorAll('pre code').forEach(block => {
+                hljs.highlightElement(block);
+            });
+            // 返回 HTML
+            return tmp.innerHTML;
+        }
+        // 评论数据本地存储
+        function getComments() {
+            return JSON.parse(localStorage.getItem('comments') || '[]');
+        }
+        function saveComments(list) {
+            localStorage.setItem('comments', JSON.stringify(list));
+        }
+        // 渲染评论列表（支持 Markdown、LaTeX、代码高亮）
+        function renderCommentList() {
+            const list = getComments();
+            const container = document.getElementById('comment-list');
+            if (!list.length) {
+                container.innerHTML = '<span class="text-muted">暂无评论</span>';
+                return;
+            }
+            container.innerHTML = list.map(c =>
+                `<div class="mb-3 border-bottom pb-2">
+                    <strong>${c.nickname}</strong> <span class="text-muted" style="font-size:0.95em;">${c.time}</span>
+                    <div class="mt-1 comment-content">${renderRichContent(c.content)}</div>
+                </div>`
+            ).join('');
+            // 数学公式渲染
+            if (window.MathJax) MathJax.typesetPromise();
+        }
+        // 评论表单提交
+        document.addEventListener('DOMContentLoaded', function() {
+            renderCommentList();
+            document.getElementById('comment-form').addEventListener('submit', function(e){
+                e.preventDefault();
+                const nickname = document.getElementById('comment-nickname').value.trim();
+                const content = document.getElementById('comment-content').value.trim();
+                if (!nickname || !content) return;
+                const time = new Date().toLocaleString();
+                const list = getComments();
+                list.push({nickname, content, time});
+                saveComments(list);
+                renderCommentList();
+                this.reset();
+                announce('评论已发布');
+                // WebSocket 实时互动（模拟广播）
+                if (window.ws && ws.readyState === 1) {
+                    ws.send(JSON.stringify({type:'comment', nickname, content, time}));
+                }
+            });
+        });
+
+        // 点赞功能
+        function getLikeCount() {
+            return parseInt(localStorage.getItem('likeCount') || '0', 10);
+        }
+        function setLikeCount(n) {
+            localStorage.setItem('likeCount', n);
+            document.getElementById('like-count').textContent = n;
+        }
+        document.addEventListener('DOMContentLoaded', function() {
+            setLikeCount(getLikeCount());
+            document.getElementById('like-btn').addEventListener('click', function() {
+                let n = getLikeCount() + 1;
+                setLikeCount(n);
+                announce('感谢点赞！');
+            });
+            document.getElementById('reward-btn').addEventListener('click', function() {
+                var modal = new bootstrap.Modal(document.getElementById('rewardModal'));
+                modal.show();
+            });
+        });
+
+        // WebSocket 实时互动（仅前端模拟，实际需后端支持）
+        let ws;
+        function setupWebSocket() {
+            // 仅演示：本地回显
+            ws = {
+                readyState: 1,
+                send: function(msg) {
+                    // 模拟收到新评论
+                    const data = JSON.parse(msg);
+                    if (data.type === 'comment') {
+                        const list = getComments();
+                        list.push({nickname: data.nickname, content: data.content, time: data.time});
+                        saveComments(list);
+                        renderCommentList();
+                    }
+                }
+            };
+        }
+        setupWebSocket();
+
+        // 日志正文、评论区支持富媒体渲染
+        document.addEventListener('DOMContentLoaded', function() {
+            // 博客正文富媒体渲染（如有 Markdown/LaTeX/代码块）
+            const post = document.querySelector('.blog-post');
+            if (post) {
+                const content = post.querySelector('p');
+                if (content) {
+                    content.innerHTML = renderRichContent(content.textContent);
+                    if (window.MathJax) MathJax.typesetPromise();
+                }
+            }
+        });
+
+        // ====== 动态背景特效（彩色粒子连线）======
+        (function() {
+            const canvas = document.getElementById('bg-canvas');
+            const ctx = canvas.getContext('2d');
+            let w = window.innerWidth, h = window.innerHeight;
+            let particles = [];
+            const PARTICLE_NUM = 80;
+            const MAX_DIST = 120;
+            function resize() {
+                w = window.innerWidth;
+                h = window.innerHeight;
+                canvas.width = w;
+                canvas.height = h;
+            }
+            window.addEventListener('resize', resize);
+            resize();
+
+            function randomColor() {
+                // HSL 彩色渐变
+                return `hsl(${Math.floor(Math.random()*360)},80%,60%)`;
+            }
+
+            function createParticle() {
+                return {
+                    x: Math.random() * w,
+                    y: Math.random() * h,
+                    vx: (Math.random() - 0.5) * 1.2,
+                    vy: (Math.random() - 0.5) * 1.2,
+                    r: 2 + Math.random() * 2,
+                    color: randomColor()
+                };
+            }
+
+            function initParticles() {
+                particles = [];
+                for (let i = 0; i < PARTICLE_NUM; i++) {
+                    particles.push(createParticle());
+                }
+            }
+            initParticles();
+
+            function draw() {
+                ctx.clearRect(0, 0, w, h);
+                // 画粒子
+                for (let p of particles) {
+                    ctx.beginPath();
+                    ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+                    ctx.fillStyle = p.color;
+                    ctx.shadowColor = p.color;
+                    ctx.shadowBlur = 8;
+                    ctx.fill();
+                }
+                ctx.shadowBlur = 0;
+                // 画连线
+                for (let i = 0; i < particles.length; i++) {
+                    for (let j = i + 1; j < particles.length; j++) {
+                        const p1 = particles[i], p2 = particles[j];
+                        const dx = p1.x - p2.x, dy = p1.y - p2.y;
+                        const dist = Math.sqrt(dx*dx + dy*dy);
+                        if (dist < MAX_DIST) {
+                            ctx.beginPath();
+                            ctx.moveTo(p1.x, p1.y);
+                            ctx.lineTo(p2.x, p2.y);
+                            ctx.strokeStyle = `rgba(150,150,255,${1 - dist/MAX_DIST})`;
+                            ctx.lineWidth = 1;
+                            ctx.stroke();
+                        }
+                    }
+                }
+            }
+
+            function update() {
+                for (let p of particles) {
+                    p.x += p.vx;
+                    p.y += p.vy;
+                    if (p.x < 0 || p.x > w) p.vx *= -1;
+                    if (p.y < 0 || p.y > h) p.vy *= -1;
+                }
+            }
+
+            function animate() {
+                update();
+                draw();
+                requestAnimationFrame(animate);
+            }
+            animate();
+        })();
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/crypto-js@4.1.1/crypto-js.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // PWA 注册
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('sw.js').then(function(reg) {
+                // 可选：监听更新
+                // reg.onupdatefound = ...
+            });
+        }
+
+        // 主题色切换器
+        const themeColorPicker = document.getElementById('theme-color-picker');
+        if (themeColorPicker) {
+            themeColorPicker.value = localStorage.getItem('themeColor') || '#2563eb';
+            document.documentElement.style.setProperty('--bs-primary', themeColorPicker.value);
+            themeColorPicker.addEventListener('input', function() {
+                document.documentElement.style.setProperty('--bs-primary', this.value);
+                document.querySelector('meta[name="theme-color"]').setAttribute('content', this.value);
+                localStorage.setItem('themeColor', this.value);
+            });
+        }
+
+        // 高级：自动夜间模式切换（根据时间段）
+        function autoNightMode() {
+            const hour = new Date().getHours();
+            if (!localStorage.getItem('theme')) {
+                if (hour >= 19 || hour < 7) {
+                    document.body.classList.add('dark-theme');
+                } else {
+                    document.body.classList.remove('dark-theme');
+                }
+            }
+        }
+        setInterval(autoNightMode, 10 * 60 * 1000); // 每10分钟自动检测
+        autoNightMode();
+
+        // 高级：深色模式切换动画
+        document.body.addEventListener('transitionend', function(e) {
+            if (e.propertyName === 'background-color') {
+                document.body.classList.remove('theme-transition');
+            }
+        });
+        function toggleDarkThemeAnimated() {
+            document.body.classList.add('theme-transition');
+            document.body.classList.toggle('dark-theme');
+        }
+        // CSS动画
+        const style = document.createElement('style');
+        style.innerHTML = `
+        .theme-transition {
+            transition: background-color 0.5s cubic-bezier(.4,2,.6,1), color 0.5s cubic-bezier(.4,2,.6,1);
+        }
+        `;
+        document.head.appendChild(style);
+
+        // 修复深色模式切换，带动画
+        document.addEventListener('DOMContentLoaded', function() {
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme === 'dark') {
+                document.body.classList.add('dark-theme');
+            } else {
+                document.body.classList.remove('dark-theme');
+            }
+            const toggleBtn = document.getElementById('toggle-theme-btn');
+            if (toggleBtn) {
+                toggleBtn.addEventListener('click', function(e) {
+                    toggleDarkThemeAnimated();
+                    const isDark = document.body.classList.contains('dark-theme');
+                    localStorage.setItem('theme', isDark ? 'dark' : 'light');
+                    this.setAttribute('aria-pressed', isDark);
+                });
+            }
+        });
+
+        // ===== AI 机器人辅助访问者了解网站功能 =====
+        const aiBotBtn = document.getElementById('ai-bot-btn');
+        const aiBotModal = document.getElementById('aiBotModal');
+        const aiBotChat = document.getElementById('ai-bot-chat');
+        const aiBotForm = document.getElementById('ai-bot-form');
+        const aiBotInput = document.getElementById('ai-bot-input');
+        if (aiBotBtn && aiBotModal && aiBotForm && aiBotInput) {
+            aiBotBtn.addEventListener('click', function() {
+                var modal = new bootstrap.Modal(aiBotModal);
+                modal.show();
+                setTimeout(()=>aiBotInput.focus(), 400);
+            });
+
+            // FAQ 问答
+            const aiFaq = [
+                {
+                    q: /做什么|功能|用途|能干啥|能做啥/,
+                    a: "本站是个人博客，支持写日志/日记、文章发布、评论互动、资料管理、文件上传、深色模式切换等功能。"
+                },
+                {
+                    q: /写(日志|日记)|如何(日志|日记)/,
+                    a: "点击首页“日志/日记”按钮，打开弹窗后填写内容并保存即可。支持Markdown语法和图片附件。"
+                },
+                {
+                    q: /深色|夜间|切换.*模式/,
+                    a: "点击“切换深色模式”按钮，或使用快捷键Ctrl+B/Alt+B，即可切换深浅主题。"
+                },
+                {
+                    q: /个人资料|管理.*资料|修改.*信息/,
+                    a: "点击侧栏“个人资料管理”按钮，或快捷键Ctrl+P/Alt+P，可编辑头像、姓名、联系方式等信息。"
+                },
+                {
+                    q: /上传.*(图片|文件)|管理.*文件/,
+                    a: "在侧栏“图片/文件管理”模块，点击“上传”按钮选择文件，即可本地管理和下载。"
+                },
+                {
+                    q: /评论|留言/,
+                    a: "在文章下方评论区填写昵称和内容，支持Markdown和代码高亮，点击提交即可。"
+                },
+                {
+                    q: /PWA|安装|桌面|离线/,
+                    a: "点击右下角“安装到桌面”按钮，可将本站作为应用安装到桌面，支持离线访问。"
+                }
+            ];
+            aiBotForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                const userMsg = aiBotInput.value.trim();
+                if (!userMsg) return;
+                aiBotChat.innerHTML += `<div class="mb-2 text-end"><span class="badge bg-secondary">你</span> ${userMsg}</div>`;
+                let found = false;
+                for (const item of aiFaq) {
+                    if (item.q.test(userMsg)) {
+                        aiBotChat.innerHTML += `<div class="mb-2"><span class="badge bg-primary">AI助手</span> ${item.a}</div>`;
+                        found = true;
+                        break;
+                    }
+                }
+                if (!found) {
+                    aiBotChat.innerHTML += `<div class="mb-2"><span class="badge bg-primary">AI助手</span> 很抱歉，我暂时无法理解你的问题。你可以问我“网站能做什么”等。</div>`;
+                }
+                aiBotChat.scrollTop = aiBotChat.scrollHeight;
+                aiBotInput.value = '';
+            });
+            // 回车聚焦
+            aiBotInput.addEventListener('keydown', function(e){
+                if(e.key==='Enter'){aiBotForm.dispatchEvent(new Event('submit'));}
+            });
+            // 清空输入时自动滚动到底部
+            aiBotModal.addEventListener('shown.bs.modal', function() {
+                aiBotChat.scrollTop = aiBotChat.scrollHeight;
+                aiBotInput.value = '';
+            });
+        }
+
+        // ...existing code...
+    </script>
+    <!-- 主题色切换器 -->
+    <div id="theme-color-picker-box">
+        <input type="color" id="theme-color-picker" title="自定义主题色">
+    </div>
+
+    <!-- 骨架屏动画 -->
+    <div id="skeleton-post" class="skeleton" style="width:96%;height:180px;display:none;position:absolute;left:2%;top:120px;z-index:1000;"></div>
+</body>
+</html>
