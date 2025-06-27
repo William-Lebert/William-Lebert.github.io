@@ -30,52 +30,135 @@
         body { line-height: 1.8; color: #333; background: #f8f9fa; }
         html, body { min-height: 100%; }
         /* 主内容和侧栏分隔 */
-        .main-content-area { background: #fff; border-radius: 0.75rem; box-shadow: 0 2px 12px #0001; padding: 2rem 1.5rem; margin-bottom: 2rem; }
-        .sidebar-area { background: #f4f6fa; border-radius: 0.75rem; box-shadow: 0 1px 8px #0001; padding: 1.5rem 1rem; }
-        @media (max-width: 991px) {
-            .main-content-area, .sidebar-area { box-shadow: none; border-radius: 0; padding: 1rem 0.5rem; }
+        .main-content-area { background: #fff; border-radius: 0.75rem; box-shadow: 0 2px 12px #0001; padding: 2rem 1.5rem; margin-bottom: 2rem; 
+            opacity: 0; transform: translateY(30px); animation: fadeInUp 0.7s cubic-bezier(.4,2,.6,1) 0.1s forwards;}
+        .sidebar-area { background: #f4f6fa; border-radius: 0.75rem; box-shadow: 0 1px 8px #0001; padding: 1.5rem 1rem;
+            opacity: 0; transform: translateY(30px); animation: fadeInUp 0.7s cubic-bezier(.4,2,.6,1) 0.3s forwards;}
+        @keyframes fadeInUp {
+            to { opacity: 1; transform: none; }
         }
-        /* 响应式字体与间距 */
-        @media (max-width: 767px) {
-            .blog-header { padding: 1.5rem 0.5rem; text-align: center; }
-            .blog-header h1 { font-size: 2rem; }
-            .blog-header .btn { margin-top: 0.5rem; }
-            main.container { padding-left: 0.5rem; padding-right: 0.5rem; }
-            .blog-post { padding: 1rem; }
-            .card { margin-bottom: 1rem; }
-            .modal-dialog { max-width: 98vw; margin: 0.5rem auto; }
-            .modal-content { border-radius: 0.5rem; }
+        /* 列表项进入动画 */
+        .list-group-item, .card { 
+            opacity: 0; transform: translateY(20px); 
+            animation: fadeInList 0.5s cubic-bezier(.4,2,.6,1) forwards;
         }
-        @media (max-width: 991px) {
-            .row.g-4 { --bs-gutter-x: 0.5rem; }
-            .col-md-4 { order: -1; }
+        .list-group-item { animation-delay: 0.2s; }
+        .card { animation-delay: 0.15s; }
+        @keyframes fadeInList {
+            to { opacity: 1; transform: none; }
         }
-        /* 让表单元素更易点选 */
-        input, textarea, select, button { font-size: 1rem; }
-        /* 日志/资料弹窗滚动优化 */
-        .modal-dialog-scrollable .modal-content { max-height: 90vh; }
-        /* 附件图片自适应 */
-        #diary-attachment-preview img, #profile-avatar-preview {
-            max-width: 100%; height: auto; border-radius: 0.5rem;
+        /* 按钮悬停缩放与过渡 */
+        .btn, button {
+            transition: transform 0.18s cubic-bezier(.4,2,.6,1), box-shadow 0.18s;
+            position: relative;
+            overflow: hidden;
         }
-        /* 无障碍聚焦样式 */
-        :focus-visible { outline: 2px solid #2563eb !important; outline-offset: 2px; }
-        /* 深色模式优化 */
-        .dark-theme { background: #222 !important; color: #eee !important; }
-        .dark-theme .form-control, .dark-theme .form-select { background: #181c23; color: #fff; border-color: #444; }
-        .dark-theme .form-control:focus, .dark-theme .form-select:focus { background: #23272e; color: #fff; border-color: #2563eb; }
-        .dark-theme .modal-content, .dark-theme .card, .dark-theme .list-group-item { background: #23272e !important; color: #fff !important; }
-        .dark-theme .modal-header, .dark-theme .card-header { background: #181c23 !important; color: #fff !important; }
-        .dark-theme .btn-close { filter: invert(1); }
-        .dark-theme .alert-warning { background: #444 !important; color: #ffe066 !important; border-color: #888 !important; }
-        /* 滚动条美化 */
-        ::-webkit-scrollbar { width: 8px; background: #eee; }
-        ::-webkit-scrollbar-thumb { background: #ccc; border-radius: 4px; }
-        .dark-theme ::-webkit-scrollbar { background: #23272e; }
-        .dark-theme ::-webkit-scrollbar-thumb { background: #444; }
-        /* 骨架屏动画 */
+        .btn:hover, button:hover {
+            transform: scale(1.045);
+            box-shadow: 0 2px 8px #2563eb22;
+        }
+        /* 按钮点击波纹动画 */
+        .btn:active::after, button:active::after {
+            content: '';
+            position: absolute;
+            left: 50%; top: 50%;
+            width: 0; height: 0;
+            background: rgba(37,99,235,0.18);
+            border-radius: 50%;
+            transform: translate(-50%,-50%);
+            animation: ripple 0.4s linear;
+            z-index: 2;
+        }
+        @keyframes ripple {
+            to { width: 180%; height: 180%; opacity: 0; }
+        }
+        /* 模态框淡入缩放动画 */
+        .modal.fade .modal-dialog {
+            transform: scale(0.96) translateY(30px);
+            opacity: 0;
+            transition: all 0.35s cubic-bezier(.4,2,.6,1);
+        }
+        .modal.fade.show .modal-dialog {
+            transform: none;
+            opacity: 1;
+        }
+        /* 霓虹发光标题 */
+        .blog-header h1 {
+            text-shadow: 0 0 8px #2563eb, 0 0 16px #60a5fa, 0 0 32px #2563eb88;
+            background: linear-gradient(90deg, #2563eb 20%, #60a5fa 60%, #a78bfa 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: neon-glow 2.5s infinite alternate;
+        }
+        @keyframes neon-glow {
+            0% { text-shadow: 0 0 8px #2563eb, 0 0 16px #60a5fa, 0 0 32px #2563eb88; }
+            100% { text-shadow: 0 0 16px #a78bfa, 0 0 32px #60a5fa, 0 0 48px #a78bfa; }
+        }
+        /* 玻璃拟态主内容和侧栏 */
+        .main-content-area, .sidebar-area {
+            background: rgba(255,255,255,0.82);
+            backdrop-filter: blur(10px) saturate(1.2);
+            box-shadow: 0 4px 32px #2563eb22, 0 1.5px 8px #0001;
+            border: 1.5px solid rgba(96,165,250,0.13);
+        }
+        /* 炫酷渐变按钮 */
+        .btn-primary, .btn-info, .btn-success, .btn-danger, .btn-outline-primary, .btn-outline-info, .btn-outline-success, .btn-outline-danger {
+            background: linear-gradient(90deg,#2563eb 0%,#60a5fa 100%);
+            color: #fff;
+            border: none;
+            box-shadow: 0 2px 12px #2563eb33;
+            transition: box-shadow 0.2s, filter 0.2s;
+        }
+        .btn-primary:hover, .btn-info:hover, .btn-success:hover, .btn-danger:hover,
+        .btn-outline-primary:hover, .btn-outline-info:hover, .btn-outline-success:hover, .btn-outline-danger:hover {
+            filter: brightness(1.12) saturate(1.2);
+            box-shadow: 0 4px 24px #60a5fa66;
+        }
+        /* 炫酷徽章 */
+        .badge.bg-secondary, .badge.bg-primary, .badge.bg-info, .badge.bg-success, .badge.bg-danger {
+            background: linear-gradient(90deg,#2563eb 0%,#a78bfa 100%) !important;
+            color: #fff !important;
+            box-shadow: 0 1px 6px #2563eb33;
+            border: none;
+        }
+        /* 卡片发光边框 */
+        .card {
+            border: 1.5px solid rgba(96,165,250,0.18);
+            box-shadow: 0 2px 16px #60a5fa22;
+            background: rgba(255,255,255,0.92);
+            backdrop-filter: blur(6px);
+        }
+        /* 炫酷渐变底部 */
+        footer.bg-dark {
+            background: linear-gradient(90deg,#2563eb 0%,#a78bfa 100%) !important;
+            box-shadow: 0 -2px 24px #2563eb44;
+        }
+        /* 粒子canvas层级调整 */
+        #bg-canvas {
+            position: fixed;
+            left: 0; top: 0; width: 100vw; height: 100vh;
+            z-index: 0;
+            pointer-events: none;
+        }
+        /* 主题色切换器玻璃效果 */
+        #theme-color-picker-box {
+            background: rgba(255,255,255,0.85);
+            box-shadow: 0 2px 8px #60a5fa33;
+            border: 1.5px solid #a78bfa33;
+            backdrop-filter: blur(6px);
+        }
+        /* AI助手按钮发光 */
+        #ai-bot-btn {
+            box-shadow: 0 0 16px #a78bfa, 0 2px 8px #2563eb44;
+            animation: ai-glow 2s infinite alternate;
+        }
+        @keyframes ai-glow {
+            0% { box-shadow: 0 0 16px #a78bfa, 0 2px 8px #2563eb44; }
+            100% { box-shadow: 0 0 32px #60a5fa, 0 4px 16px #a78bfa88; }
+        }
+        /* 骨架屏炫彩动画 */
         .skeleton {
-            background: linear-gradient(90deg,#eee 25%,#f5f5f5 37%,#eee 63%);
+            background: linear-gradient(90deg,#eee 25%,#a78bfa 37%,#60a5fa 63%,#eee 100%);
             background-size: 400% 100%;
             animation: skeleton-loading 1.2s ease-in-out infinite;
             border-radius: 4px;
@@ -85,24 +168,7 @@
             0% {background-position: 100% 50%;}
             100% {background-position: 0 50%;}
         }
-        /* 主题色切换器悬浮样式优化 */
-        #theme-color-picker-box {
-            position: fixed;
-            right: 18px;
-            bottom: 18px;
-            z-index: 1050;
-            background: #fff;
-            border-radius: 50%;
-            box-shadow: 0 2px 8px #0002;
-            padding: 6px;
-            border: 1px solid #eee;
-        }
-        #theme-color-picker { width: 32px; height: 32px; border: none; background: none; }
-        @media (max-width: 767px) {
-            #theme-color-picker-box { right: 8px; bottom: 8px; }
-        }
-        /* 骨架屏位置优化 */
-        #skeleton-post { margin-bottom: 1.5em; border-radius: 0.5em; }
+        /* ...existing code... */
     </style>
     <!-- 富媒体支持库 -->
     <link rel="manifest" href="manifest.json">
@@ -530,6 +596,67 @@
       </div>
     </div>
 
+    <!-- 自动维护网站的机器人入口按钮 -->
+    <button id="maintain-bot-btn" title="维护机器人" style="position:fixed;right:18px;bottom:190px;z-index:1100;border-radius:50%;width:48px;height:48px;background:#a78bfa;color:#fff;box-shadow:0 2px 8px #0002;border:none;display:flex;align-items:center;justify-content:center;">
+        <i class="bi bi-tools" style="font-size:1.5em;"></i>
+    </button>
+    <!-- 自动维护机器人对话框 -->
+    <div class="modal fade" id="maintainBotModal" tabindex="-1" aria-labelledby="maintainBotModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered" style="max-width:350px;">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="maintainBotModalLabel"><i class="bi bi-tools"></i> 维护机器人</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="关闭"></button>
+          </div>
+          <div class="modal-body" style="max-height:350px;overflow-y:auto;">
+            <div id="maintain-bot-chat" style="font-size:1em;min-height:80px;">
+              <div class="mb-2"><span class="badge bg-info">维护机器人</span> 你好！我是网站维护机器人，可以帮你自动维护网站。你可以输入：</div>
+              <ul style="padding-left:1.2em;">
+                <li>清理缓存</li>
+                <li>检测本地存储</li>
+                <li>刷新页面</li>
+                <li>导出全部数据</li>
+              </ul>
+            </div>
+            <!-- 新增快捷登录按钮 -->
+            <div class="mt-3 text-center">
+              <button id="quick-login-btn" class="btn btn-outline-primary btn-sm">
+                <i class="bi bi-box-arrow-in-right"></i> 快捷登录
+              </button>
+            </div>
+          </div>
+          <div class="modal-footer p-2">
+            <form id="maintain-bot-form" class="d-flex w-100 gap-2" autocomplete="off" onsubmit="return false;">
+              <input type="text" id="maintain-bot-input" class="form-control form-control-sm" placeholder="请输入维护命令..." maxlength="80" autocomplete="off">
+              <button type="submit" class="btn btn-info btn-sm"><i class="bi bi-send"></i></button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- 快捷登录窗口 -->
+    <div class="modal fade" id="quickLoginModal" tabindex="-1" aria-labelledby="quickLoginModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered" style="max-width:340px;">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="quickLoginModalLabel"><i class="bi bi-box-arrow-in-right"></i> 快捷登录</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="关闭"></button>
+          </div>
+          <div class="modal-body text-center">
+            <a href="https://github.com/login" target="_blank" rel="noopener" class="btn btn-dark w-100 mb-2" style="text-align:left;">
+              <i class="bi bi-github"></i> 登录 GitHub
+            </a>
+            <a href="https://gitee.com/login" target="_blank" rel="noopener" class="btn btn-danger w-100 mb-2" style="text-align:left;">
+              <i class="bi bi-git"></i> 登录 Gitee
+            </a>
+            <a href="https://huggingface.co/login" target="_blank" rel="noopener" class="btn btn-warning w-100" style="text-align:left;">
+              <i class="bi bi-person-circle"></i> 登录 HuggingFace
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <script>
         // 统一事件绑定方式
         function toggleTheme() {
@@ -690,14 +817,15 @@
             });
         });
 
-        // ====== 动态背景特效（彩色粒子连线）======
+        // ====== 动态背景特效（彩色粒子连线+鼠标互动）======
         (function() {
             const canvas = document.getElementById('bg-canvas');
             const ctx = canvas.getContext('2d');
             let w = window.innerWidth, h = window.innerHeight;
             let particles = [];
-            const PARTICLE_NUM = 80;
-            const MAX_DIST = 120;
+            const PARTICLE_NUM = 90;
+            const MAX_DIST = 140;
+            let mouse = {x: w/2, y: h/2, active: false};
             function resize() {
                 w = window.innerWidth;
                 h = window.innerHeight;
@@ -731,6 +859,16 @@
             }
             initParticles();
 
+            // 鼠标跟随粒子
+            canvas.addEventListener('mousemove', function(e) {
+                mouse.x = e.clientX;
+                mouse.y = e.clientY;
+                mouse.active = true;
+            });
+            canvas.addEventListener('mouseleave', function() {
+                mouse.active = false;
+            });
+
             function draw() {
                 ctx.clearRect(0, 0, w, h);
                 // 画粒子
@@ -739,25 +877,48 @@
                     ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
                     ctx.fillStyle = p.color;
                     ctx.shadowColor = p.color;
-                    ctx.shadowBlur = 8;
+                    ctx.shadowBlur = 12;
+                    ctx.globalAlpha = 0.85;
                     ctx.fill();
                 }
                 ctx.shadowBlur = 0;
+                ctx.globalAlpha = 1;
                 // 画连线
                 for (let i = 0; i < particles.length; i++) {
-                    for (let j = i + 1; j < particles.length; j++) {
-                        const p1 = particles[i], p2 = particles[j];
-                        const dx = p1.x - p2.x, dy = p1.y - p2.y;
-                        const dist = Math.sqrt(dx*dx + dy*dy);
-                        if (dist < MAX_DIST) {
-                            ctx.beginPath();
-                            ctx.moveTo(p1.x, p1.y);
-                            ctx.lineTo(p2.x, p2.y);
-                            ctx.strokeStyle = `rgba(150,150,255,${1 - dist/MAX_DIST})`;
-                            ctx.lineWidth = 1;
-                            ctx.stroke();
-                        }
+                for (let j = i + 1; j < particles.length; j++) {
+                    const p1 = particles[i], p2 = particles[j];
+                    const dx = p1.x - p2.x, dy = p1.y - p2.y;
+                    const dist = Math.sqrt(dx*dx + dy*dy);
+                    if (dist < MAX_DIST) {
+                        ctx.beginPath();
+                        ctx.moveTo(p1.x, p1.y);
+                        ctx.lineTo(p2.x, p2.y);
+                        // 渐变色连线
+                        const grad = ctx.createLinearGradient(p1.x, p1.y, p2.x, p2.y);
+                        grad.addColorStop(0, p1.color);
+                        grad.addColorStop(1, p2.color);
+                        ctx.strokeStyle = grad;
+                        ctx.globalAlpha = 0.25 + 0.5 * (1 - dist / MAX_DIST);
+                        ctx.lineWidth = 1.2;
+                        ctx.stroke();
+                        ctx.globalAlpha = 1;
                     }
+                }
+                }
+                // 鼠标与粒子连线
+                if (mouse.active) {
+                for (let p of particles) {
+                    const dx = p.x - mouse.x, dy = p.y - mouse.y;
+                    const dist = Math.sqrt(dx*dx + dy*dy);
+                    if (dist < MAX_DIST * 1.1) {
+                        ctx.beginPath();
+                        ctx.moveTo(p.x, p.y);
+                        ctx.lineTo(mouse.x, mouse.y);
+                        ctx.strokeStyle = `rgba(167,139,250,${0.18 + 0.4*(1-dist/(MAX_DIST*1.1))})`;
+                        ctx.lineWidth = 1.5;
+                        ctx.stroke();
+                    }
+                }
                 }
             }
 
@@ -767,6 +928,15 @@
                     p.y += p.vy;
                     if (p.x < 0 || p.x > w) p.vx *= -1;
                     if (p.y < 0 || p.y > h) p.vy *= -1;
+                    // 鼠标吸引
+                    if (mouse.active) {
+                        const dx = mouse.x - p.x, dy = mouse.y - p.y;
+                        const dist = Math.sqrt(dx*dx + dy*dy);
+                        if (dist < 120) {
+                            p.vx += dx * 0.0005;
+                            p.vy += dy * 0.0005;
+                        }
+                    }
                 }
             }
 
@@ -1251,6 +1421,9 @@
         const pwaBtn = document.getElementById('pwa-install-btn');
         window.addEventListener('beforeinstallprompt', (e) => {
             e.preventDefault();
+
+
+
             deferredPrompt = e;
             if (pwaBtn) pwaBtn.style.display = 'block';
         });
@@ -1294,312 +1467,6 @@
         }
         // 可在某些操作后调用 showDemoNotification('新消息', '您有一条新评论！');
 
-        // PWA 注册
-        if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.register('sw.js').then(function(reg) {
-                // 可选：监听更新
-                // reg.onupdatefound = ...
-            });
-        }
-
-        // 主题色切换器
-        const themeColorPicker = document.getElementById('theme-color-picker');
-        if (themeColorPicker) {
-            themeColorPicker.value = localStorage.getItem('themeColor') || '#2563eb';
-            document.documentElement.style.setProperty('--bs-primary', themeColorPicker.value);
-            themeColorPicker.addEventListener('input', function() {
-                document.documentElement.style.setProperty('--bs-primary', this.value);
-                document.querySelector('meta[name="theme-color"]').setAttribute('content', this.value);
-                localStorage.setItem('themeColor', this.value);
-            });
-        }
-
-        // 高级：自动夜间模式切换（根据时间段）
-        function autoNightMode() {
-            const hour = new Date().getHours();
-            if (!localStorage.getItem('theme')) {
-                if (hour >= 19 || hour < 7) {
-                    document.body.classList.add('dark-theme');
-                } else {
-                    document.body.classList.remove('dark-theme');
-                }
-            }
-        }
-        setInterval(autoNightMode, 10 * 60 * 1000); // 每10分钟自动检测
-        autoNightMode();
-
-        // 高级：深色模式切换动画
-        document.body.addEventListener('transitionend', function(e) {
-            if (e.propertyName === 'background-color') {
-                document.body.classList.remove('theme-transition');
-            }
-        });
-        function toggleDarkThemeAnimated() {
-            document.body.classList.add('theme-transition');
-            document.body.classList.toggle('dark-theme');
-        }
-        // CSS动画
-        const style = document.createElement('style');
-        style.innerHTML = `
-        .theme-transition {
-            transition: background-color 0.5s cubic-bezier(.4,2,.6,1), color 0.5s cubic-bezier(.4,2,.6,1);
-        }
-        `;
-        document.head.appendChild(style);
-
-        // 修复深色模式切换，带动画
-        document.addEventListener('DOMContentLoaded', function() {
-            const savedTheme = localStorage.getItem('theme');
-            if (savedTheme === 'dark') {
-                document.body.classList.add('dark-theme');
-            } else {
-                document.body.classList.remove('dark-theme');
-            }
-            const toggleBtn = document.getElementById('toggle-theme-btn');
-            if (toggleBtn) {
-                toggleBtn.addEventListener('click', function(e) {
-                    toggleDarkThemeAnimated();
-                    const isDark = document.body.classList.contains('dark-theme');
-                    localStorage.setItem('theme', isDark ? 'dark' : 'light');
-                    this.setAttribute('aria-pressed', isDark);
-                });
-            }
-        });
-
-        // 高级：AI 文章推荐（模拟，实际可接后端API）
-        function aiRecommendPosts() {
-            // 假设根据用户最近浏览/评论关键词推荐
-            const keywords = ['前端', '技术', '学习', '生活'];
-            const posts = [
-                { title: "AI驱动的前端开发", url: "#", tag: "前端", score: 0.98 },
-                { title: "高效学习方法", url: "#", tag: "学习", score: 0.95 },
-                { title: "技术人生感悟", url: "#", tag: "技术", score: 0.93 },
-                { title: "生活中的编程思维", url: "#", tag: "生活", score: 0.91 }
-            ];
-            // 按score排序
-            posts.sort((a, b) => b.score - a.score);
-            const container = document.getElementById('hot-post-list');
-            if (container) {
-                container.innerHTML = posts.map(p =>
-                    `<li class="list-group-item"><a href="${p.url}" tabindex="0">${p.title} <span class="badge bg-info ms-1">${p.tag}</span></a></li>`
-                ).join('');
-            }
-        }
-        document.addEventListener('DOMContentLoaded', aiRecommendPosts);
-
-        // 高级：WebAssembly 性能加速（模拟，实际需 wasm 文件）
-        async function wasmDemo() {
-            // 这里只做演示，实际需部署 .wasm 文件
-            // const wasm = await WebAssembly.instantiateStreaming(fetch('fastmath.wasm'));
-            // const { fastAdd } = wasm.instance.exports;
-            // console.log('WASM加速结果:', fastAdd(123, 456));
-        }
-        wasmDemo();
-
-        // 富媒体渲染函数
-        function renderRichContent(raw) {
-            // Markdown -> HTML
-            let html = marked.parse(raw || '');
-            // 代码高亮
-            const tmp = document.createElement('div');
-            tmp.innerHTML = html;
-            tmp.querySelectorAll('pre code').forEach(block => {
-                hljs.highlightElement(block);
-            });
-            // 返回 HTML
-            return tmp.innerHTML;
-        }
-        // 评论数据本地存储
-        function getComments() {
-            return JSON.parse(localStorage.getItem('comments') || '[]');
-        }
-        function saveComments(list) {
-            localStorage.setItem('comments', JSON.stringify(list));
-        }
-        // 渲染评论列表（支持 Markdown、LaTeX、代码高亮）
-        function renderCommentList() {
-            const list = getComments();
-            const container = document.getElementById('comment-list');
-            if (!list.length) {
-                container.innerHTML = '<span class="text-muted">暂无评论</span>';
-                return;
-            }
-            container.innerHTML = list.map(c =>
-                `<div class="mb-3 border-bottom pb-2">
-                    <strong>${c.nickname}</strong> <span class="text-muted" style="font-size:0.95em;">${c.time}</span>
-                    <div class="mt-1 comment-content">${renderRichContent(c.content)}</div>
-                </div>`
-            ).join('');
-            // 数学公式渲染
-            if (window.MathJax) MathJax.typesetPromise();
-        }
-        // 评论表单提交
-        document.addEventListener('DOMContentLoaded', function() {
-            renderCommentList();
-            document.getElementById('comment-form').addEventListener('submit', function(e){
-                e.preventDefault();
-                const nickname = document.getElementById('comment-nickname').value.trim();
-                const content = document.getElementById('comment-content').value.trim();
-                if (!nickname || !content) return;
-                const time = new Date().toLocaleString();
-                const list = getComments();
-                list.push({nickname, content, time});
-                saveComments(list);
-                renderCommentList();
-                this.reset();
-                announce('评论已发布');
-                // WebSocket 实时互动（模拟广播）
-                if (window.ws && ws.readyState === 1) {
-                    ws.send(JSON.stringify({type:'comment', nickname, content, time}));
-                }
-            });
-        });
-
-        // 点赞功能
-        function getLikeCount() {
-            return parseInt(localStorage.getItem('likeCount') || '0', 10);
-        }
-        function setLikeCount(n) {
-            localStorage.setItem('likeCount', n);
-            document.getElementById('like-count').textContent = n;
-        }
-        document.addEventListener('DOMContentLoaded', function() {
-            setLikeCount(getLikeCount());
-            document.getElementById('like-btn').addEventListener('click', function() {
-                let n = getLikeCount() + 1;
-                setLikeCount(n);
-                announce('感谢点赞！');
-            });
-            document.getElementById('reward-btn').addEventListener('click', function() {
-                var modal = new bootstrap.Modal(document.getElementById('rewardModal'));
-                modal.show();
-            });
-        });
-
-        // WebSocket 实时互动（仅前端模拟，实际需后端支持）
-        let ws;
-        function setupWebSocket() {
-            // 仅演示：本地回显
-            ws = {
-                readyState: 1,
-                send: function(msg) {
-                    // 模拟收到新评论
-                    const data = JSON.parse(msg);
-                    if (data.type === 'comment') {
-                        const list = getComments();
-                        list.push({nickname: data.nickname, content: data.content, time: data.time});
-                        saveComments(list);
-                        renderCommentList();
-                    }
-                }
-            };
-        }
-        setupWebSocket();
-
-        // 日志正文、评论区支持富媒体渲染
-        document.addEventListener('DOMContentLoaded', function() {
-            // 博客正文富媒体渲染（如有 Markdown/LaTeX/代码块）
-            const post = document.querySelector('.blog-post');
-            if (post) {
-                const content = post.querySelector('p');
-                if (content) {
-                    content.innerHTML = renderRichContent(content.textContent);
-                    if (window.MathJax) MathJax.typesetPromise();
-                }
-            }
-        });
-
-        // ====== 动态背景特效（彩色粒子连线）======
-        (function() {
-            const canvas = document.getElementById('bg-canvas');
-            const ctx = canvas.getContext('2d');
-            let w = window.innerWidth, h = window.innerHeight;
-            let particles = [];
-            const PARTICLE_NUM = 80;
-            const MAX_DIST = 120;
-            function resize() {
-                w = window.innerWidth;
-                h = window.innerHeight;
-                canvas.width = w;
-                canvas.height = h;
-            }
-            window.addEventListener('resize', resize);
-            resize();
-
-            function randomColor() {
-                // HSL 彩色渐变
-                return `hsl(${Math.floor(Math.random()*360)},80%,60%)`;
-            }
-
-            function createParticle() {
-                return {
-                    x: Math.random() * w,
-                    y: Math.random() * h,
-                    vx: (Math.random() - 0.5) * 1.2,
-                    vy: (Math.random() - 0.5) * 1.2,
-                    r: 2 + Math.random() * 2,
-                    color: randomColor()
-                };
-            }
-
-            function initParticles() {
-                particles = [];
-                for (let i = 0; i < PARTICLE_NUM; i++) {
-                    particles.push(createParticle());
-                }
-            }
-            initParticles();
-
-            function draw() {
-                ctx.clearRect(0, 0, w, h);
-                // 画粒子
-                for (let p of particles) {
-                    ctx.beginPath();
-                    ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-                    ctx.fillStyle = p.color;
-                    ctx.shadowColor = p.color;
-                    ctx.shadowBlur = 8;
-                    ctx.fill();
-                }
-                ctx.shadowBlur = 0;
-                // 画连线
-                for (let i = 0; i < particles.length; i++) {
-                    for (let j = i + 1; j < particles.length; j++) {
-                        const p1 = particles[i], p2 = particles[j];
-                        const dx = p1.x - p2.x, dy = p1.y - p2.y;
-                        const dist = Math.sqrt(dx*dx + dy*dy);
-                        if (dist < MAX_DIST) {
-                            ctx.beginPath();
-                            ctx.moveTo(p1.x, p1.y);
-                            ctx.lineTo(p2.x, p2.y);
-                            ctx.strokeStyle = `rgba(150,150,255,${1 - dist/MAX_DIST})`;
-                            ctx.lineWidth = 1;
-                            ctx.stroke();
-                        }
-                    }
-                }
-            }
-
-            function update() {
-                for (let p of particles) {
-                    p.x += p.vx;
-                    p.y += p.vy;
-                    if (p.x < 0 || p.x > w) p.vx *= -1;
-                    if (p.y < 0 || p.y > h) p.vy *= -1;
-                }
-            }
-
-            function animate() {
-                update();
-                draw();
-                requestAnimationFrame(animate);
-            }
-            animate();
-        })();
-    </script>
-    <script src="https://cdn.jsdelivr.net/npm/crypto-js@4.1.1/crypto-js.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script>
         // PWA 注册
         if ('serviceWorker' in navigator) {
             navigator.serviceWorker.register('sw.js').then(function(reg) {
@@ -1745,6 +1612,143 @@
                 aiBotInput.value = '';
             });
         }
+
+        // 自动维护机器人逻辑
+        (function() {
+            const maintainBotBtn = document.getElementById('maintain-bot-btn');
+            const maintainBotModal = document.getElementById('maintainBotModal');
+            const maintainBotChat = document.getElementById('maintain-bot-chat');
+            const maintainBotForm = document.getElementById('maintain-bot-form');
+            const maintainBotInput = document.getElementById('maintain-bot-input');
+            // 新增快捷登录按钮
+            let quickLoginBtn = document.getElementById('quick-login-btn');
+            let quickLoginModal = document.getElementById('quickLoginModal');
+            // 若未插入则插入快捷登录窗口HTML
+            if (!quickLoginModal) {
+                quickLoginModal = document.createElement('div');
+                quickLoginModal.className = 'modal fade';
+                quickLoginModal.id = 'quickLoginModal';
+                quickLoginModal.tabIndex = -1;
+                quickLoginModal.setAttribute('aria-labelledby', 'quickLoginModalLabel');
+                quickLoginModal.setAttribute('aria-hidden', 'true');
+                quickLoginModal.innerHTML = `
+                  <div class="modal-dialog modal-dialog-centered" style="max-width:340px;">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h5 class="modal-title" id="quickLoginModalLabel"><i class="bi bi-box-arrow-in-right"></i> 快捷登录</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="关闭"></button>
+                      </div>
+                      <div class="modal-body text-center">
+                        <a href="https://github.com/login" target="_blank" rel="noopener" class="btn btn-dark w-100 mb-2" style="text-align:left;">
+                          <i class="bi bi-github"></i> 登录 GitHub
+                        </a>
+                        <a href="https://gitee.com/login" target="_blank" rel="noopener" class="btn btn-danger w-100 mb-2" style="text-align:left;">
+                          <i class="bi bi-git"></i> 登录 Gitee
+                        </a>
+                        <a href="https://huggingface.co/login" target="_blank" rel="noopener" class="btn btn-warning w-100" style="text-align:left;">
+                          <i class="bi bi-person-circle"></i> 登录 HuggingFace
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+                `;
+                document.body.appendChild(quickLoginModal);
+            }
+            // 若未插入按钮则插入
+            if (!quickLoginBtn && maintainBotModal) {
+                const modalBody = maintainBotModal.querySelector('.modal-body');
+                if (modalBody) {
+                    const div = document.createElement('div');
+                    div.className = 'mt-3 text-center';
+                    div.innerHTML = `<button id="quick-login-btn" class="btn btn-outline-primary btn-sm">
+                        <i class="bi bi-box-arrow-in-right"></i> 快捷登录
+                    </button>`;
+                    modalBody.appendChild(div);
+                    quickLoginBtn = document.getElementById('quick-login-btn');
+                }
+            }
+            if (quickLoginBtn && quickLoginModal) {
+                quickLoginBtn.addEventListener('click', function() {
+                    var modal = new bootstrap.Modal(quickLoginModal);
+                    modal.show();
+                });
+            }
+            // ...existing code...
+        })();
+
+        // 页面主内容和侧栏动画（防止刷新时动画重复）
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelectorAll('.main-content-area, .sidebar-area').forEach(el=>{
+                el.style.animationPlayState = 'running';
+            });
+            // 列表项/卡片动画延迟递增
+            document.querySelectorAll('.list-group-item').forEach((el,i)=>{
+                el.style.animationDelay = (0.2 + i*0.05) + 's';
+                el.style.animationPlayState = 'running';
+            });
+            document.querySelectorAll('.card').forEach((el,i)=>{
+                el.style.animationDelay = (0.15 + i*0.07) + 's';
+                el.style.animationPlayState = 'running';
+            });
+        });
+
+        // ===== 自动修复错误代码的程序 =====
+        (function() {
+            // 错误提示区域
+            let errorBox = null;
+            function showError(msg, fixSuggestion) {
+                if (!errorBox) {
+                    errorBox = document.createElement('div');
+                    errorBox.style.position = 'fixed';
+                    errorBox.style.bottom = '20px';
+                    errorBox.style.left = '50%';
+                    errorBox.style.transform = 'translateX(-50%)';
+                    errorBox.style.background = '#fff3cd';
+                    errorBox.style.color = '#856404';
+                    errorBox.style.border = '1.5px solid #ffeeba';
+                    errorBox.style.borderRadius = '8px';
+                    errorBox.style.padding = '12px 20px';
+                    errorBox.style.zIndex = 9999;
+                    errorBox.style.boxShadow = '0 2px 12px #0002';
+                    errorBox.style.fontSize = '1em';
+                    document.body.appendChild(errorBox);
+                }
+                errorBox.innerHTML = `<strong>检测到代码错误：</strong> ${msg}` + (fixSuggestion ? `<br><span style="color:#155724;">自动修复建议：${fixSuggestion}</span>` : '');
+                errorBox.style.display = 'block';
+                setTimeout(()=>{ errorBox.style.display='none'; }, 8000);
+            }
+
+            // 常见错误自动修复建议
+            function getFixSuggestion(message, source, lineno, colno, error) {
+                if (/Unexpected token/.test(message) && /;/.test(message) === false) {
+                    return '可能缺少分号 ;，请检查该行末尾。';
+                }
+                if (/is not defined/.test(message)) {
+                    return '变量未声明，建议检查变量名或是否漏写 let/const/var。';
+                }
+                if (/Cannot read property/.test(message)) {
+                    return '对象属性访问出错,建议检查对象是否为null或未定义。';
+                }
+                if (/Unexpected end of input/.test(message)) {
+                    return '代码块可能缺少右括号 } 或右中括号 ]。';
+                }
+                return '';
+            }
+
+            // 全局错误监听
+            window.addEventListener('error', function(event) {
+                const msg = event.message || '未知错误';
+                const fix = getFixSuggestion(msg, event.filename, event.lineno, event.colno, event.error);
+                showError(msg, fix);
+                // 可扩展：自动修复部分错误（如自动补分号等，需结合编辑器环境）
+            });
+
+            // Promise未捕获异常
+            window.addEventListener('unhandledrejection', function(event) {
+                const msg = event.reason && event.reason.message ? event.reason.message : String(event.reason);
+                showError('Promise错误: ' + msg, '');
+            });
+        })();
 
         // ...existing code...
     </script>
